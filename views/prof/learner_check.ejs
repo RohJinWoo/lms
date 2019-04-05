@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= obj.title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style type="text/css">
+        body > nav, body > section {
+            float: left;
+            height : 200px;
+        }
+        .users{
+            float: left;
+        }
+        nav{
+            background: lightgreen;
+        }
+        header{
+            background: lightblue;
+        }
+        section{
+            background: lightpink;
+            width: 80%;
+        }
+        section > article{
+            background: lightgray;
+            margin: 5px 5px 5px 5px;
+        }
+        table td {
+            border : solid 1px;
+        }
+    </style>
+  </head>
+  <body>
+      <nav>
+        <a href='./'>메인</a><br/>
+        <a href='./learner-check'>학습자 조회</a><br/>
+        <a href='./learner-slump-check'>학습 부진자 조회</a><br/>
+      </nav>
+      <section>
+        <header>
+            <%= obj.title %>
+        </header>
+        <section>
+            <article>
+                <div>
+                    <p>
+                        <span>
+                            강좌목록 : <select name="" id="">
+                                <% if (obj.year) { %>
+                                    <option value=<%= obj.year[0] %> selected><%= obj.year[0] %></option>
+                                    <option value=<%= obj.year[1] %>><%= obj.year[1] %></option>
+                                    <option value=<%= obj.year[2] %>><%= obj.year[2] %></option>
+                                <% } %>
+                            </select></span>
+                        <button>검색</button>
+                    </p>
+                </div>
+            </article>
+            <article>
+                <table>
+                        <thead>
+                            <td>
+                                학습자명
+                            </td>
+                            <td>
+                                학습 진행도
+                            </td>
+                            <td>
+                                중간점수
+                            </td>
+                            <td>
+                                기말점수
+                            </td>
+                        </thead>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                        </tr>
+                </table>
+            </article>
+        </section>
+      </section>
+  </body>
+</html>

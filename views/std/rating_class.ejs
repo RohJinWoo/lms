@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= obj.title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style type="text/css">
+        body > nav, body > section {
+            float: left;
+            height : 200px;
+        }
+        .users{
+            float: left;
+        }
+        nav{
+            background: lightgreen;
+        }
+        header{
+            background: lightblue;
+        }
+        section{
+            background: lightpink;
+            width: 80%;
+        }
+        section > article{
+            background: lightgray;
+            margin: 5px 5px 5px 5px;
+        }
+        table td {
+            border : solid 1px;
+        }
+    </style>
+  </head>
+  <body>
+      <nav>
+        <a href='./'>메인</a><br/>
+        <a href='./sign-up-class'>수강신청</a><br/>
+        <a href='./check-class'>수강조회</a><br/>
+        <a href='./exam'>시험보기</a><br/>
+        <a href='./check-grade'>성적조회</a><br/>
+        <a href='./rating-class'>강의평가</a><br/>
+      </nav>
+      <section>
+        <header>
+            <%= obj.title %>
+        </header>
+        <section>
+            <article>
+                <div>
+                    <p>
+                        <span>[<%= obj.cource[0].subject_name %>]|[<%= obj.cource[0].cource_name %>]</span><span>[<%= obj.cource[0].professor_name %>]</span>
+                    </p>
+                </div>
+            </article>
+            <article>
+                <div>
+                    <p>
+                        <span>[<%= obj.cource[1].subject_name %>]|[<%= obj.cource[1].cource_name %>]</span><span>[<%= obj.cource[1].professor_name %>]</span>
+                    </p>
+                </div>
+            </article>
+            <article>
+                <table>
+                    <thead>
+                        <td>
+                            문항
+                        </td>
+                        <td>
+                            응답결과
+                        </td>
+                    </thead>
+                    <tr>
+                        <td>
+                            1. 과목과 강좌의 연관성이 맞았고, 강좌의 진행이 배움에 도움이 되었다고 느꼈다.
+                        </td>
+                        <td>
+                            <input type="radio" name="no1" id="5">매우 그렇다
+                            <input type="radio" name="no1" id="4">그렇다
+                            <input type="radio" name="no1" id="3">보통이다
+                            <input type="radio" name="no1" id="2">아니다
+                            <input type="radio" name="no1" id="1">전혀 그렇지 않다
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2. 강좌 내의 담당 교육자가 교육 내용을 효과적으로 전달하였다.
+                        </td>
+                        <td>
+                            <input type="radio" name="no2" id="5">매우 그렇다
+                            <input type="radio" name="no2" id="4">그렇다
+                            <input type="radio" name="no2" id="3">보통이다
+                            <input type="radio" name="no2" id="2">아니다
+                            <input type="radio" name="no2" id="1">전혀 그렇지 않다
+                        </td>
+                    </tr>
+                </table>
+                <button>저장</button>
+            </article>
+        </section>
+      </section>
+  </body>
+</html>

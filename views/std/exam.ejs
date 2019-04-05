@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= obj.title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style type="text/css">
+        body > nav, body > section {
+            float: left;
+            height : 200px;
+        }
+        .users{
+            float: left;
+        }
+        nav{
+            background: lightgreen;
+        }
+        header{
+            background: lightblue;
+        }
+        section{
+            background: lightpink;
+        }
+        section > article{
+            background: lightgray;
+            margin: 5px 5px 5px 5px;
+        }
+    </style>
+  </head>
+  <body>
+      <nav>
+        <a href='/std/'>메인</a><br/>
+        <a href='/std/sign-up-class'>수강신청</a><br/>
+        <a href='/std/check-class'>수강조회</a><br/>
+        <a href='/std/exam'>시험보기</a><br/>
+        <a href='/std/check-grade'>성적조회</a><br/>
+        <a href='/std/rating-class'>강의평가</a><br/>
+      </nav>
+      <section>
+        <header>
+            <%= obj.title %>
+        </header>
+        <section>
+                <article>
+                    <div>
+                        <p>
+                            <span>[<%= obj.exam[0].subject_name %>]|[<%= obj.exam[0].cource_name %>]</span><span>[<%= obj.exam[0].professor_name %>]</span>
+                        </p>
+                        <p>
+                            <span>시험응시기간 : [<%= obj.exam[0].start_date %> ~ <%= obj.exam[0].end_date %>]</span>
+                        </p>
+                    </div>
+                </article>
+                <article>
+                    <div>
+                        <p>
+                            <span>[<%= obj.exam[1].subject_name %>]|[<%= obj.exam[1].cource_name %>]</span><span>[<%= obj.exam[1].professor_name %>]</span>
+                        </p>
+                        <p>
+                            <span>시험응시기간 : [<%= obj.exam[1].start_date %> ~ <%= obj.exam[1].end_date %>]</span>
+                        </p>
+                    </div>
+                </article>
+        </section>
+      </section>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= obj.title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style type="text/css">
+        body > nav, body > section {
+            float: left;
+            height : 200px;
+        }
+        .users{
+            float: left;
+        }
+        nav{
+            background: lightgreen;
+        }
+        header{
+            background: lightblue;
+        }
+        section{
+            background: lightpink;
+        }
+        section > article:nth-child(1){
+            background: lightsalmon;
+        }
+        section > article:nth-child(2){
+            background: lightcoral;
+        }
+        section > article:nth-child(3){
+            background: lightcyan;
+        }
+    </style>
+  </head>
+  <body>
+      <nav>
+        <a href='./'>메인</a><br/>
+        <a href='./sign-up-class'>수강신청</a><br/>
+        <a href='./check-class'>수강조회</a><br/>
+        <a href='./exam'>시험보기</a><br/>
+        <a href='./check-grade'>성적조회</a><br/>
+        <a href='./rating-class'>강의평가</a><br/>
+      </nav>
+      <section>
+        <header>
+            공백 및 타이틀
+        </header>
+        <section>
+            <article>
+                <b>공지사항</b>
+                <div><%= obj.notice[0].title %> | <%= obj.notice[0].date %></div>
+                <div><%= obj.notice[1].title %> | <%= obj.notice[1].date %></div>
+            </article>
+            <article class="users" id="std">강의진행도
+                <div><%= obj.sub_prog[0].cource_name %> | <%= obj.sub_prog[0].progress %></div>
+                <div><%= obj.sub_prog[1].cource_name %> | <%= obj.sub_prog[1].progress %></div>
+            </article>
+            <article class="users">내용들어가</article>
+        </section>
+      </section>
+  </body>
+  <% if (obj) { %>
+      <script>
+        //   var test = <%- JSON.stringify(obj) %>; console.log(test);
+        //   console.log(test.length);
+        //   let progress = document.querySelector('#std');
+        //   let str = "";
+        //   for(data in test){
+        //       str += "<br/><span>" + test[data][0] + " : " + test[data][1] + "%</span>";
+        //   }
+        //   progress.innerHTML += str;
+      </script>
+  <% } %>
+</html>

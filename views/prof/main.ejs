@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= obj.title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style type="text/css">
+        body > nav, body > section {
+            float: left;
+            height : 200px;
+        }
+        .users{
+            float: left;
+        }
+        nav{
+            background: lightgreen;
+        }
+        header{
+            background: lightblue;
+        }
+        section{
+            background: lightpink;
+            width: 80%;
+        }
+        section > article{
+            background: lightgray;
+            margin: 5px 5px 5px 5px;
+        }
+        table td {
+            border : solid 1px;
+        }
+    </style>
+  </head>
+  <body>
+      <nav>
+        <a href='./'>메인</a><br/>
+        <a href='./learner-check'>학습자 조회</a><br/>
+        <a href='./learner-slump-check'>학습 부진자 조회</a><br/>
+      </nav>
+      <section>
+        <header>
+            <%= obj.title %>
+        </header>
+        <section>
+            <article>
+                <b>공지사항</b>
+                <div><%= obj.notice[0].title %> | <%= obj.notice[0].date %></div>
+                <div><%= obj.notice[1].title %> | <%= obj.notice[1].date %></div>
+            </article>
+            <article>
+            </article>
+        </section>
+      </section>
+  </body>
+</html>
