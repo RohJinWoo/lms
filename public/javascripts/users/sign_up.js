@@ -13,7 +13,7 @@ var sign_up = function(){
         let form = u.qu('#form');
         console.log(form);
         // u.form(form, './', 'post');
-    }else{
+    } else {
         alert("다 입력");
     }
 }

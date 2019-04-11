@@ -5,7 +5,7 @@ var find_pw = function(){
 
     var test = u.validation(l_name.value, 'engkor') &&
                 u.validation(l_id, 'id') &&
-                u.validation(email, 'email')
+                u.validation(email, 'email');
                 
     if(test){
         let form = u.qu('#form');
