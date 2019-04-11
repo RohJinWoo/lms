@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "apmsetup",
-    "database": "database_development",
+    "database": "lms_system_develope",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
