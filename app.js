@@ -9,7 +9,8 @@ var indexRouter = require('./routes/index'),
     studentsRouter = require('./routes/students'),
     professorsRouter = require('./routes/professors'),
     apiRouter = require('./routes/api'),
-    emailRouter = require('./routes/email');
+    emailRouter = require('./routes/email'),
+    loginRouter = require('./routes/login');
 
 var app = express();
 
@@ -29,7 +30,6 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/js', express.static(path.join(__dirname, 'node_modules', 'axios', 'dist')));
 
 app.use('/', indexRouter);
@@ -37,6 +37,7 @@ app.use('/std', studentsRouter);
 app.use('/prof', professorsRouter);
 app.use('/api', apiRouter);
 app.use('/email', emailRouter);
+app.use('/login', loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

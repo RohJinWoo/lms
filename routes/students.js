@@ -4,7 +4,7 @@ const noticeController = require('../controllers').notice;
 const studentController = require('../controllers').student;
 const courceController = require('../controllers').cource;
 
-router.get('/', (req, res) => {
+router.get('/main', (req, res) => {
   Promise.all([noticeController.notice(req, res) , studentController.std_progress(req, res)])
   .then( value => {
     // 받아온 value 값을 처리
@@ -78,4 +78,7 @@ router.get('/rating-class', (req, res) => {
   });
 });
 
+router.get('/nav.ejs', (req,res)=>{
+  res.render('std/nav');
+})
 module.exports = router;

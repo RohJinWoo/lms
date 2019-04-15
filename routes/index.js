@@ -4,7 +4,7 @@ const userController = require('../controllers').user;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { obj : { title: 'Express' } } );
+  res.render('login/login', { obj : { title: '로그인' } } );
 });
 
 router.get('/sign_up', function(req, res, next){

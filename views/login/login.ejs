@@ -5,15 +5,16 @@
   </head>
   <body>
     <form id="form">
-      <h1>학습자 로그인</h1>
+      <h1><%= obj.title %></h1>
       <div>
-        <input type="text" id="l_id" name="l_id" placeholder="ID" value=<%= obj.u_no !== undefined ? obj.u_no : '' %>>
+        <input type="text" id="u_id" name="u_id" placeholder="ID" value=<%= obj.u_id !== undefined ? obj.u_id : '' %>>
       </div>
       <div>
         <input type="password" id="password" name="password" placeholder="비밀번호">
       </div>
       <div>
-        <button type="button" onclick="login()">로그인</button>
+        <button type="button" onclick="login('std')">학습자 로그인</button>
+        <button type="button" onclick="login('prof')">교육자 로그인</button>
       </div>
       
       <div>
@@ -24,9 +25,7 @@
         </div>
       </div>
     </form>
-
-    <button type="button" onclick="change_login()">교육자 페이지 이동</button>
   </body>
   <script src="javascripts/util.js"></script>
-  <script src="javascripts/index.js"></script>
+  <script src="javascripts/user_req.js"></script>
 </html>

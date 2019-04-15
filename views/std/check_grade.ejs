@@ -28,16 +28,27 @@
             border : solid 1px;
         }
     </style>
+    <script src="../js/axios.min.js"></script>
+    <script>
+        var nav_menu = function(){
+            axios.get('./nav.ejs')
+            .then((response) => {
+                document.querySelector("#nav_menu").innerHTML = response.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        }
+        nav_menu();
+        // function ss(){
+        //     document.getElementById('#nav_menu').load('./nav.ejs');
+        // }
+        // ss();
+    </script>
   </head>
   <body>
-      <nav>
-        <a href='./'>메인</a><br/>
-        <a href='./sign-up-class'>수강신청</a><br/>
-        <a href='./check-class'>수강조회</a><br/>
-        <a href='./exam'>시험보기</a><br/>
-        <a href='./check-grade'>성적조회</a><br/>
-        <a href='./rating-class'>강의평가</a><br/>
-      </nav>
+        <nav id="nav_menu">
+        </nav>
       <section>
         <header>
             <!-- <%= obj.title %> -->

@@ -4,7 +4,7 @@ const noticeController = require('../controllers').notice;
 const studentController = require('../controllers').student;
 const professorController = require('../controllers').professor;
 
-router.get('/', (req, res) => {
+router.get('/main', (req, res) => {
     Promise.all([noticeController.notice(req, res), professorController.ex(req, res)])
     .then( value => {
         res.render('prof/main', { obj : { title : '메인', notice : value[0] } } );
