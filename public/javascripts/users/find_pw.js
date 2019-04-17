@@ -1,15 +1,17 @@
 var find_pw = function(){
-    let l_name = u.qu('#l_name');
-    let l_id = u.qu('#l_id');
+    let u_name = u.qu('#u_name');
+    let u_id = u.qu('#u_id');
     let email = u.qu('#email');
 
-    var test = u.validation(l_name.value, 'engkor') &&
-                u.validation(l_id, 'id') &&
+    var test = u.validation(u_name.value, 'engkor') &&
+                u.validation(u_id, 'id') &&
                 u.validation(email, 'email');
-                
-    if(test){
+               
+    // 원래 test가 들어가야함
+    if(!(u_name.value === "") && !(u_id.value === "") && !(email.value === "")){
         let form = u.qu('#form');
         console.log(form);
+        u.form(form, './user/find_pw', 'post');
     }else{
         alert('다 입력');
     }

@@ -25,26 +25,10 @@
             margin: 5px 5px 5px 5px;
         }
     </style>
-    <script src="../js/axios.min.js"></script>
-    <script>
-        var nav_menu = function(){
-            axios.get('./nav.ejs')
-            .then((response) => {
-                document.querySelector("#nav_menu").innerHTML = response.data;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        }
-        nav_menu();
-        // function ss(){
-        //     document.getElementById('#nav_menu').load('./nav.ejs');
-        // }
-        // ss();
-    </script>
   </head>
   <body>
         <nav id="nav_menu">
+            <% include ./nav %>
         </nav>
       <section>
         <header>

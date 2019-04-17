@@ -27,11 +27,11 @@ const u = {
         child.removeChild(child.firstChild);
       }
     },
-    validation: (str, type,) => {
+    validation: (str, type) => {
       let regexp;
       switch (type) {
         case 'id':
-          regexp = /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{8,12}$/;
+          regexp = /^[a-zA-Z0-9].{8,12}$/;
           //하나이상의 대소문자 영어, 하나 이상의 숫자, 최소 8자 최대 12자
           return regexp.test(str);
         case 'engkor':

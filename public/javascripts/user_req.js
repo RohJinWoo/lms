@@ -1,16 +1,23 @@
-var login = function(user){
-    let form = u.qu('#form');
 
-    switch (user){
-    case 'std' :
-        u.form(form, "./login/std", 'POST');
-        break;
-    case 'prof' :
-        u.form(form, "./login/prof", 'POST');
-        break;
-    default :
-        alert('올바른 입력 바랍니다.');
-        break;
+var login = function(user){
+    let u_id = u.qu('#u_id');
+    let password = u.qu('#password');
+    if(u_id.value === "" || password.value === ""){
+        alert("ID와 비밀번호를 입력바랍니다.");
+    }else{
+        let form = u.qu('#form');
+
+        switch (user){
+        case 'std' :
+            au.post('./user/login_std', { u_id : form.u_id.value, password : form.password.value } );
+            break;
+        case 'prof' :
+            au.post('./user/login_prof', { u_id : form.u_id.value, password : form.password.value } );
+            break;
+        default :
+            alert('올바른 입력 바랍니다.');
+            break;
+        }
     }
 };
 

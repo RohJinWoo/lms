@@ -17,11 +17,6 @@ module.exports = (sequelize, DataTypes) => {
           type : DataTypes.STRING(45),
           allowNull : false,
       },
-      pid: {
-          type : DataTypes.STRING(45),
-          allowNull : false,
-          primaryKey : true,
-      },
   }, {});
   Professors.associate = function(models) {
     // associations can be defined here

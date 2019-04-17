@@ -1,14 +1,15 @@
 var find_id = function(){
-    let l_name = u.qu('#l_name');
+    let u_name = u.qu('#u_name');
     let email = u.qu('#email');
 
-    var test = u.validation(l_name.value, 'engkor') &&
+    var test = u.validation(u_name.value, 'engkor') &&
                 u.validation(email.value, 'email');
-                
-    if(test){
+
+    // 원래 test가 들어가야함
+    if(!(u_name.value === "") && !(email.value === "")){
         var form = u.qu('#form');
         console.log(form);
-        //
+        u.form(form, './user/find_id', 'post');
     }else{
         alert("다 입력");
     }

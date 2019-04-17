@@ -30,26 +30,10 @@
             background: lightcyan;
         }
     </style>
-    <script src="../js/axios.min.js"></script>
-    <script>
-        var nav_menu = function(){
-            axios.get('./nav.ejs')
-            .then((response) => {
-                document.querySelector("#nav_menu").innerHTML = response.data;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        }
-        nav_menu();
-        // function ss(){
-        //     document.getElementById('#nav_menu').load('./nav.ejs');
-        // }
-        // ss();
-    </script>
   </head>
   <body>
-        <nav id="nav_menu">
+        <nav include-ejs="nav.ejs">
+            <% include ./nav %>
         </nav>
         <section>
             <header>
@@ -69,16 +53,4 @@
             </section>
         </section>
   </body>
-  <% if (obj) { %>
-      <script>
-        //   var test = <%- JSON.stringify(obj) %>; console.log(test);
-        //   console.log(test.length);
-        //   let progress = document.querySelector('#std');
-        //   let str = "";
-        //   for(data in test){
-        //       str += "<br/><span>" + test[data][0] + " : " + test[data][1] + "%</span>";
-        //   }
-        //   progress.innerHTML += str;
-      </script>
-  <% } %>
 </html>

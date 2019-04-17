@@ -78,7 +78,4 @@ router.get('/rating-class', (req, res) => {
   });
 });
 
-router.get('/nav.ejs', (req,res)=>{
-  res.render('std/nav');
-})
 module.exports = router;

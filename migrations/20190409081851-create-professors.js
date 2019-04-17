@@ -19,9 +19,10 @@ module.exports = {
         allowNull: false,
       },
       pid: {
-        type: Sequelize.STRING(45),
-        primaryKey: true,
         allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
