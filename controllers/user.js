@@ -62,7 +62,7 @@ module.exports = {
         return std
         .update(field, config)
         .catch(err => {
-            res.status(400).send(err);
+            res.status(400).send('DB Update 요청에서 에러가 발생하였습니다.', err);
         });
     },
 };
