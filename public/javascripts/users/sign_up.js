@@ -9,6 +9,7 @@ var sign_up = function(){
         u.validation(password.value,'password') &&
         u.validation(email.value,'email');
         
+    // 회원가입 요청시 랜덤한 token 값을 생성.
     var token = "";
     var text = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     for(var i = 0; i < 20; i++){

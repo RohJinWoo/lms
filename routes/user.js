@@ -30,7 +30,7 @@ router.post('/find_id', emailController.auth, (req, res) => {
     .then(result => {
         // 회원가입 관련 처리
         console.log(result);
-        res.send( { content : "찾으시는 ID는 [ " + result + " ]입니다." } );
+        res.send( { content : "찾으시는 ID는 [ " + result + " ]입니다.", link : '/' } );
     })
     .catch((err) => {
         console.log(err); res.send( { errMessage : "ID를 찾는 도중 에러가 발생하였습니다." } );
@@ -50,11 +50,12 @@ router.post('/find_pw', emailController.auth, (req, res) => {
     })
     .then(result => {
         // 회원가입 관련 처리
+        console.log('result :::: ',result, "       result.result      :::::::    ", result.result);
         if(result.result){
             var sess = req.session;
             sess.l_id = result.l_id;
             console.log("req.session.l_id ====================== ", req.session.l_id);
-            res.render("login/change_pw", { obj : { title : "비밀번호 재설정" } } );
+            res.send( { link : "user/find_pw" } );
         }else{
             res.send( { errMessage : "입력하신 정보가 올바르지 않습니다." } );
         }
@@ -63,6 +64,15 @@ router.post('/find_pw', emailController.auth, (req, res) => {
         console.log(err); res.send( { errMessage : "PW를 찾는 도중 에러가 발생하였습니다."} );
     });
 });
+
+router.get('/find_pw', (req, res) => {
+    console.log(req.session.l_id);
+    if(req.session.l_id){
+        res.render('login/change_pw', { obj : { title : "비밀번호 재설정" } } );
+    }else{
+        res.send("잘못된 접근입니다.");
+    }
+})
 
 router.post('/change_pw', (req, res) => {
     userController.update(req, res, {
@@ -75,17 +85,16 @@ router.post('/change_pw', (req, res) => {
     })
     .then(result => {
         // 회원가입 관련 처리
-        console.log("FDFDSFS");
-        console.log(result);
-        if(result !== null){
+        if(result[0] === 1){
             console.log(result);
             req.session.l_id = undefined;
-            res.send( { content : "입력하신 내용으로 비밀번호 변경이 완료되었습니다." } );
+            res.send( { content : "입력하신 내용으로 비밀번호 변경이 완료되었습니다.", link : '/' } );
         }else{
-            res.send( { errMessage : "입력하신 정보가 올바르지 않습니다." } );
+            res.send( { errMessage : "요청이 올바르게 처리되지 않았습니다." } );
         }
     })
     .catch((err) => {
+        req.session.l_id = undefined;
         console.log(err); res.send( { errMessage : "PW변경 도중 에러가 발생하였습니다." } );
     });
 });

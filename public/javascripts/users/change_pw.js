@@ -7,7 +7,7 @@ var change_pw = function(){
     // 원래 test가 들어가야함
     if(password.value === password_check.value){
         var form = u.qu('#form');
-        u.form(form, './user/change_pw', 'post');
+        u.axios('./change_pw', { password : password.value });
     }else{
         alert('다시 한번 확인 요망');
     }

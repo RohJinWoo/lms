@@ -11,23 +11,15 @@ module.exports = {
       console.log('email_auth.auth === path >>>>>>>>>>>>>>>>>>>>>>>>>>>. ', email_auth.auth === path);
       if(email_auth.auth === path && email_auth.email === email)
       {
-        console.log('이메일 인증 완료된 상태 sign_auth');
-      }
-      else if(email_auth.auth === path && email_auth.email === email)
-      {
-        console.log('이메일 인증 완료된 상태 find_id');
-      }
-      else if(email_auth.auth === path && email_auth.email === email)
-      {
-        console.log('이메일 인증 완료된 상태 find_pw');
+        console.log('이메일 인증 완료된 상태');
+        req.session.email_auth = undefined;
+        next();
       }
       else
       {
-        req.session.email_auth = undefined;
+        req.session.email_auth = undefined; 
         res.send( { errMessage : "이메일 인증처리 도중 에러가 발생하였습니다." } );
       }
-      req.session.email_auth = undefined;
-      next();
     }
     else
     {

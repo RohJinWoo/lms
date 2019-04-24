@@ -51,12 +51,14 @@ const u = {
   axios: function(req_path, form){
     axios.post(req_path, form)
       .then((response) => {
+        if(response.data.content){
+          alert(response.data.content);
+        }
+        if(response.data.errMessage){
+          alert(response.data.errMessage);
+        }
         if(response.data.link){
           u.link(response.data.link);
-        }else if(response.data.content){
-          alert(response.data.content);
-        }else if(response.data.errMessage){
-          alert(response.data.errMessage);
         }
       })
       .catch((err) => {

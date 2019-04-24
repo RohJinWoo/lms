@@ -49,6 +49,7 @@ module.exports = {
         return std
         .findOne(config.data)
         .then((result) => {
+            console.log('result      ::::  >>>>>>  ', result);
             if(config.type === "id"){
                 return result.l_id;
             }else if(result !== null){

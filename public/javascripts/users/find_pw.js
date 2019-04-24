@@ -9,7 +9,6 @@ var find_pw = function(){
                
     // 원래 test가 들어가야함
     if(!(u_name.value === "") && !(u_id.value === "") && !(email.value === "")){
-        let form = u.qu('#form');
         u.axios('./user/find_pw', { u_name : u_name.value, u_id : u_id.value, email : email.value });
     }else{
         alert('다 입력');
