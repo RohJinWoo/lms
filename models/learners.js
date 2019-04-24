@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
+      token: {
+        type : DataTypes.STRING(45),
+      },
   }, {});
   Learners.associate = function(models) {
     // associations can be defined here

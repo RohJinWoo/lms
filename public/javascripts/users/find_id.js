@@ -8,8 +8,7 @@ var find_id = function(){
     // 원래 test가 들어가야함
     if(!(u_name.value === "") && !(email.value === "")){
         var form = u.qu('#form');
-        console.log(form);
-        u.form(form, './user/find_id', 'post');
+        u.axios('./user/find_id', { u_name : u_name.value, email : email.value });
     }else{
         alert("다 입력");
     }

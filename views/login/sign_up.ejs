@@ -8,6 +8,9 @@
       <h1><%= obj !== undefined ? obj.title : '' %></h1>
       <div>
         <input type="text" name="u_id" id="u_id" placeholder="ID">
+        <span>
+          <button type="button" onclick="" name="u_id_btn">ID 중복 검사(예정)</button>
+        </span>
       </div>
       <div>
         <input type="text" name="u_name" id="u_name" placeholder="이름">
@@ -17,9 +20,6 @@
       </div>
       <div>
         <input type="email" name="email" id="email" placeholder="이메일">
-        <span>
-          <button type="button" onclick="send_email('sign_up')" name="u_email_btn">이메일 인증</button>
-        </span>
       </div>
       <div>
         <button type="button" onclick="sign_up()">회원가입</button>
@@ -28,7 +28,6 @@
   </body>
   <script src="../js/axios.min.js"></script>
   <script src="../javascripts/util.js"></script>
-  <script src="../javascripts/email/email.js"></script>
   <script src="../javascripts/users/sign_up.js"></script>
   <script>
   </script>

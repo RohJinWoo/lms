@@ -9,10 +9,10 @@ var login = function(user){
 
         switch (user){
         case 'std' :
-            au.post('./user/login_std', { u_id : form.u_id.value, password : form.password.value } );
+            u.axios('./user/login_std', { u_id : form.u_id.value, password : form.password.value } );
             break;
         case 'prof' :
-            au.post('./user/login_prof', { u_id : form.u_id.value, password : form.password.value } );
+            u.axios('./user/login_prof', { u_id : form.u_id.value, password : form.password.value } );
             break;
         default :
             alert('올바른 입력 바랍니다.');

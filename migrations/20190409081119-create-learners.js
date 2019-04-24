@@ -24,6 +24,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      pid: {
+        type: Sequelize.STRING(45),
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

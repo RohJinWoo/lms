@@ -9,11 +9,16 @@ var sign_up = function(){
         u.validation(password.value,'password') &&
         u.validation(email.value,'email');
         
+    var token = "";
+    var text = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for(var i = 0; i < 20; i++){
+        token += text.charAt(Math.floor(Math.random() * text.length));
+    }
+
     // 원래 test가 들어가야함
     if(!(u_name.value === "") && !(u_id.value === "") && !(password.value === "") && !(email.value === "")){
         let form = u.qu('#form');
-        console.log(form);
-        u.form(form, './user/sign_up', 'post');
+        u.axios('./email/sign_auth', { u_id : u_id.value, u_name : u_name.value, password : password.value, email : email.value, token : token } );
     } else {
         alert("다 입력");
     }

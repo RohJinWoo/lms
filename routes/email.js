@@ -2,11 +2,16 @@ var express = require('express');
 var session = require('express-session');
 const nodemailer = require('nodemailer');
 var router = express.Router();
+var userController = require('../controllers').user;
+
+router.post('/sign_auth', userController.sign_up, (req, res) => {
+  // 회원가입 관련 처리
+  res.redirect('/user/sign_auth/?email=' + req.body.email + "&id=" + req.body.u_id);
+});
 
 /* https://victorydntmd.tistory.com/113 */
 router.post('/emailpost', (req, res) => {
     let email = req.body.email;
-  
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -14,8 +19,6 @@ router.post('/emailpost', (req, res) => {
         pass:'4321wasd'
       }
     });
-    console.log('email');
-    console.log(email);
 
     let token;
     switch(req.body.req){
@@ -44,7 +47,7 @@ router.post('/emailpost', (req, res) => {
       else{console.log('email sent: ' + info.response);};
     });
   
-    res.send(req.body.email);
+    res.send( { content : req.body.email + "로 이메일을 발송하였습니다." } );
   })
   
   // email 인증(성공시 session값 생성, 실패시 nothing)
@@ -54,13 +57,13 @@ router.post('/emailpost', (req, res) => {
 
     switch(req.query.token){
       case 'qwer':
-        req.session.email_auth.auth = "qwer";
+        req.session.email_auth.auth = "/sign_up";
         break;
       case 'qwert':
-        req.session.email_auth.auth = "qwert";
+        req.session.email_auth.auth = "/find_id";
         break;
       case 'qwerty':
-        req.session.email_auth.auth = "qwerty";
+        req.session.email_auth.auth = "/find_pw";
         break;
       default:
         res.send('미인증');

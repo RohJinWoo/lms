@@ -4,9 +4,10 @@ var change_pw = function(){
 
     var test = (password.value === password_check.value) && u.validation(password.value, 'password');
 
-    if(test){
+    // 원래 test가 들어가야함
+    if(password.value === password_check.value){
         var form = u.qu('#form');
-        console.log(form);
+        u.form(form, './user/change_pw', 'post');
     }else{
         alert('다시 한번 확인 요망');
     }

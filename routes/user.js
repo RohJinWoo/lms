@@ -6,21 +6,20 @@ var userController = require('../controllers').user;
 
 router.post('/login_std',  (req, res) => {
     // 로그인 관련 처리 및 세션 생성
-    res.send('../std/main');
+    res.send( { link : '../std/main' } );
 });
 
 router.post('/login_prof', (req, res) => {
     // 로그인 관련 처리 및 세션 생성
-    res.send('../prof/main');
+    res.send( { link : '../prof/main' } );
 });
 
-router.post('/sign_up', emailController.auth, userController.sign_up, (req, res) => {
-    // 회원가입 관련 처리
-    res.redirect('/');
+router.get('/sign_auth', (req, res) => {
+    res.render('login/email_auth', { obj : { id : req.query.id, email : req.query.email } } );
 });
 
 router.post('/find_id', emailController.auth, (req, res) => {
-    userController.find(req, res, {
+    userController.select(req, res, {
         type : "id",
         data : {
              where : {
@@ -31,15 +30,15 @@ router.post('/find_id', emailController.auth, (req, res) => {
     .then(result => {
         // 회원가입 관련 처리
         console.log(result);
-        res.render("login/find_id_result", { obj : { u_id : result } } );
+        res.send( { content : "찾으시는 ID는 [ " + result + " ]입니다." } );
     })
     .catch((err) => {
-        console.log(err); res.render('error', { obj : { errMessage : "ID를 찾는 도중 에러가 발생하였습니다.", path : req.route.path } } );
+        console.log(err); res.send( { errMessage : "ID를 찾는 도중 에러가 발생하였습니다." } );
     });
 });
 
 router.post('/find_pw', emailController.auth, (req, res) => {
-    userController.find(req, res, {
+    userController.select(req, res, {
         type : "pw",
         data : {
             where : { 
@@ -51,14 +50,43 @@ router.post('/find_pw', emailController.auth, (req, res) => {
     })
     .then(result => {
         // 회원가입 관련 처리
-        if(result){
+        if(result.result){
+            var sess = req.session;
+            sess.l_id = result.l_id;
+            console.log("req.session.l_id ====================== ", req.session.l_id);
             res.render("login/change_pw", { obj : { title : "비밀번호 재설정" } } );
         }else{
-            res.render("error", { obj : { errMessage : "입력하신 정보가 올바르지 않습니다.", path : req.route.path } } );
+            res.send( { errMessage : "입력하신 정보가 올바르지 않습니다." } );
         }
     })
     .catch((err) => {
-        console.log(err); res.render('error', { obj : { errMessage : "PW를 찾는 도중 에러가 발생하였습니다.", path : req.route.path } } );
+        console.log(err); res.send( { errMessage : "PW를 찾는 도중 에러가 발생하였습니다."} );
+    });
+});
+
+router.post('/change_pw', (req, res) => {
+    userController.update(req, res, {
+        password : req.body.password
+    },
+    {
+        where : { 
+            l_id : req.session.l_id,
+        }
+    })
+    .then(result => {
+        // 회원가입 관련 처리
+        console.log("FDFDSFS");
+        console.log(result);
+        if(result !== null){
+            console.log(result);
+            req.session.l_id = undefined;
+            res.send( { content : "입력하신 내용으로 비밀번호 변경이 완료되었습니다." } );
+        }else{
+            res.send( { errMessage : "입력하신 정보가 올바르지 않습니다." } );
+        }
+    })
+    .catch((err) => {
+        console.log(err); res.send( { errMessage : "PW변경 도중 에러가 발생하였습니다." } );
     });
 });
 
