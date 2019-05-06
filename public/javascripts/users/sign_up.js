@@ -24,3 +24,13 @@ var sign_up = function(){
         alert("다 입력");
     }
 }
+
+var redundancy_check = function(){
+    let u_id = u.qu('#u_id');
+
+    if(!(u_id.value === "")){
+        u.axios('./user/redundancy_check', { u_id : u_id.value } );
+    }else{
+        alert("ID를 입력바랍니다.");
+    }
+}

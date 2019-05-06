@@ -3,15 +3,41 @@ var session = require('express-session');
 var router = express.Router();
 var emailController = require('../controllers').email;
 var userController = require('../controllers').user;
+var stdController = require('../controllers').student;
+var profController = require('../controllers').professor;
 
 router.post('/login_std',  (req, res) => {
     // 로그인 관련 처리 및 세션 생성
-    res.send( { link : '../std/main' } );
+    stdController.login(req, res)
+    .then(result => {
+        console.log("result : ",result);
+        if(result[0] !== undefined){
+            req.session.std_id = result[0];
+            res.send( { link : '../std/main' } );
+        }else{
+            res.send( { errMessage : "요청하신 회원 정보가 일치하지 않습니다. (학습자 로그인)" } );
+        }
+    })
+    .catch(err => {
+        res.status(400).send(err);
+    })
 });
 
 router.post('/login_prof', (req, res) => {
     // 로그인 관련 처리 및 세션 생성
-    res.send( { link : '../prof/main' } );
+    profController.login(req, res)
+    .then(result => {
+        console.log(result);
+        if(result[0] !== undefined){
+            req.session.p_id = result[0];
+            res.send( { link : '../prof/main' } );
+        }else{
+            res.send( { errMessage : "요청하신 회원 정보가 일치하지 않습니다. (교육자 로그인)" } );
+        }
+    })
+    .catch(err => {
+        res.status(400).send(err);
+    })
 });
 
 router.get('/sign_auth', (req, res) => {
@@ -98,5 +124,9 @@ router.post('/change_pw', (req, res) => {
         console.log(err); res.send( { errMessage : "PW변경 도중 에러가 발생하였습니다." } );
     });
 });
+
+router.post("/redundancy_check", (req, res) => {
+    userController.redundancy_check(req, res);
+})
 
 module.exports = router;

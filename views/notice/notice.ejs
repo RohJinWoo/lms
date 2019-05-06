@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= obj !== undefined ? obj.title : '' %></title>
+  </head>
+  <body>
+    <form id="notice">
+      <div class="board" id ="board"></div>
+      <div class="pagination"></div>
+    </form>
+    <form id="form" onsubmit="return subclose();">
+      <h1><%= obj !== undefined ? obj.title : '' %></h1>
+      <div>
+        <input type="text" name="nowpage" id="nowpage" value="<%= obj.nowpage %>">
+      </div>
+      <div>
+        <button type="button" onclick="pagination()">페이지 이동</button>
+      </div>
+    </form>
+  </body>
+  <script src = 'javascripts/util.js'></script>
+  <script src = 'js/axios.min.js'></script>
+  <script src = 'javascripts/notice_pagination.js'></script>
+</html>

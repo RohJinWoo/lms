@@ -48,6 +48,7 @@ const u = {
         break;
     }
   },
+
   axios: function(req_path, form){
     axios.post(req_path, form)
       .then((response) => {
@@ -58,12 +59,19 @@ const u = {
           alert(response.data.errMessage);
         }
         if(response.data.link){
-          u.link(response.data.link);
+          location.href = response.data.link;
+        }
+        if(response.data.console){
+          console.log(response.data.console);
         }
       })
       .catch((err) => {
         console.log('에러가 발생하였습니다.');
         console.log('에러 내용 : ', err);
       });
-  }
+  },
+}
+
+function subclose(){
+  return false;
 }

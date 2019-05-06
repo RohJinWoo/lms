@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= obj !== undefined ? obj.title : '' %></title>
+  </head>
+  <body>
+      <form id="form" onsubmit="return subclose()">
+          <h1><%= obj !== undefined ? obj.title : '' %></h1>
+          <div>
+            <input type="text" name="title" id="title" placeholder="제목">
+          </div>
+          <div>
+            <textarea name="content" id="content" cols="30" rows="10" placeholder="내용"></textarea>
+          </div>
+          <div>
+            <button type="button" onclick="createNotice()">생성</button>
+          </div>
+        </form>
+  </body>
+  <script src = '../javascripts/util.js'></script>
+  <script src = '../js/axios.min.js'></script>
+  <script src = '../javascripts/notice_edit.js'></script>
+</html>

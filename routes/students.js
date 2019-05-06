@@ -5,17 +5,22 @@ const studentController = require('../controllers').student;
 const courceController = require('../controllers').cource;
 
 router.get('/main', (req, res) => {
-  Promise.all([noticeController.notice(req, res) , studentController.std_progress(req, res)])
-  .then( value => {
-    // 받아온 value 값을 처리
-    console.log('value : ', value);
-    console.log('value[0] : ', value[0]);
-    console.log('value[1] : ', value[1]);
-    res.render('std/main', { obj : { title : '가장 기본이 되는것', notice : value[0], sub_prog : value[1] } } );
-  })
-  .catch( err => {
-    res.status(400).send(err);
-  });
+  if(req.session.std_id !== undefined){
+    console.log("req.session.std_id :: ",req.session.std_id);
+    Promise.all([noticeController.notice(req, res) , studentController.std_progress(req, res)])
+    .then( value => {
+      // 받아온 value 값을 처리
+      console.log('value : ', value);
+      console.log('value[0] : ', value[0]);
+      console.log('value[1] : ', value[1]);
+      res.render('std/main', { obj : { title : '가장 기본이 되는것', notice : value[0], sub_prog : value[1] } } );
+    })
+    .catch( err => {
+      res.status(400).send(err);
+    });
+  }else{
+    res.redirect('/');
+  }
 })
 
 router.get('/sign-up-class', (req, res) => {

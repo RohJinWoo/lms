@@ -3,7 +3,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Notices', {
       n_id: {
-        type: Sequelize.STRING(45),
+        type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
       },

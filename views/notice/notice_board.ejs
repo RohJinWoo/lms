@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= obj !== undefined ? obj.title : '' %></title>
+    </head>
+    <body>
+        <form id="form" onsubmit="return subclose()">
+            <h1>제목 : <%= obj !== undefined ? obj.title : '' %></h1>
+            날짜 : <%= obj.createdAt !== undefined ? obj.createdAt : '' %>
+            <div>
+                <p>내용 : <%= obj.content !== undefined ? obj.content : '내용 없음' %></p>
+            </div>
+        </form>
+    </body>
+</html>
