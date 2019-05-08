@@ -19,7 +19,7 @@ var sign_up = function(){
     // 원래 test가 들어가야함
     if(!(u_name.value === "") && !(u_id.value === "") && !(password.value === "") && !(email.value === "")){
         let form = u.qu('#form');
-        u.axios('./email/sign_auth', { u_id : u_id.value, u_name : u_name.value, password : password.value, email : email.value, token : token } );
+        u.axios('./email/sign_auth', { u_id : u_id.value, u_name : u_name.value, password : password.value, email : email.value, token : token } , "post" );
     } else {
         alert("다 입력");
     }
@@ -29,7 +29,7 @@ var redundancy_check = function(){
     let u_id = u.qu('#u_id');
 
     if(!(u_id.value === "")){
-        u.axios('./user/redundancy_check', { u_id : u_id.value } );
+        u.axios('./user/redundancy_check', { u_id : u_id.value } , "post" );
     }else{
         alert("ID를 입력바랍니다.");
     }

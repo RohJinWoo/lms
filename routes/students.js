@@ -3,27 +3,24 @@ var router = express.Router();
 const noticeController = require('../controllers').notice;
 const studentController = require('../controllers').student;
 const courceController = require('../controllers').cource;
+const userController = require('../controllers').user;
 
-router.get('/main', (req, res) => {
-  if(req.session.std_id !== undefined){
-    console.log("req.session.std_id :: ",req.session.std_id);
-    Promise.all([noticeController.notice(req, res) , studentController.std_progress(req, res)])
-    .then( value => {
-      // 받아온 value 값을 처리
-      console.log('value : ', value);
-      console.log('value[0] : ', value[0]);
-      console.log('value[1] : ', value[1]);
-      res.render('std/main', { obj : { title : '가장 기본이 되는것', notice : value[0], sub_prog : value[1] } } );
-    })
-    .catch( err => {
-      res.status(400).send(err);
-    });
-  }else{
-    res.redirect('/');
-  }
+router.get('/main', userController.login_access, (req, res) => {
+  console.log("req.session.std_id :: ",req.session.std_id);
+  Promise.all([noticeController.notice(req, res) , studentController.std_progress(req, res)])
+  .then( value => {
+    // 받아온 value 값을 처리
+    console.log('value : ', value);
+    console.log('value[0] : ', value[0]);
+    console.log('value[1] : ', value[1]);
+    res.render('std/main', { obj : { title : '가장 기본이 되는것', notice : value[0], sub_prog : value[1] } } );
+  })
+  .catch( err => {
+    res.status(400).send(err);
+  });
 })
 
-router.get('/sign-up-class', (req, res) => {
+router.get('/sign-up-class', userController.login_access, (req, res) => {
     Promise.all([courceController.find(req, res)])
     .then( value => {
         console.log('value : ', value);
@@ -35,7 +32,7 @@ router.get('/sign-up-class', (req, res) => {
     });
 });
 
-router.get('/check-class', (req, res) => {
+router.get('/check-class', userController.login_access, (req, res) => {
   Promise.all([courceController.find(req, res)])
   .then( value => {
     console.log('value : ', value);
@@ -47,7 +44,7 @@ router.get('/check-class', (req, res) => {
   });
 });
 
-router.get('/exam', (req, res) => {
+router.get('/exam', userController.login_access, (req, res) => {
   Promise.all([courceController.exam_find(req, res)])
   .then( value => {
     console.log('value : ', value);
@@ -59,7 +56,7 @@ router.get('/exam', (req, res) => {
   });
 });
 
-router.get('/check-grade', (req, res) => {
+router.get('/check-grade', userController.login_access, (req, res) => {
   Promise.all([studentController.std_year(req, res)])
   .then( value => {
     console.log('value : ', value);
@@ -71,7 +68,7 @@ router.get('/check-grade', (req, res) => {
   });
 });
 
-router.get('/rating-class', (req, res) => {
+router.get('/rating-class', userController.login_access, (req, res) => {
   Promise.all([courceController.rating_class_find(req, res)])
   .then( value => {
     console.log('value : ', value);

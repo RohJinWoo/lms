@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= obj !== undefined ? obj.title : '' %></title>
+    <title>공지사항</title>
   </head>
   <body>
       <form id="form" onsubmit="return subclose()">
-          <h1><%= obj !== undefined ? obj.title : '' %></h1>
+          <h1>공지사항</h1>
           <div>
-            <input type="text" name="title" id="title" placeholder="제목">
+            <input type="text" name="title" id="title" placeholder="제목" value="<%= obj !== undefined ? obj.title : '' %>">
           </div>
           <div>
-            <textarea name="content" id="content" cols="30" rows="10" placeholder="내용"></textarea>
+            <textarea name="content" id="content" cols="30" rows="10" placeholder="내용"><%= obj !== undefined ? obj.content : '' %></textarea>
           </div>
           <div>
-            <button type="button" onclick="createNotice()">생성</button>
+            <button type="button" onclick="createNotice('<%= obj.content !== undefined ? "update" : "create"%>')"><%= obj.content !== undefined ? '수정' : '생성'%></button>
           </div>
         </form>
   </body>
-  <script src = '../javascripts/util.js'></script>
-  <script src = '../js/axios.min.js'></script>
-  <script src = '../javascripts/notice_edit.js'></script>
+  <script src = '<%= obj.content !== undefined ? '' : '.'%>./javascripts/util.js'></script>
+  <script src = '<%= obj.content !== undefined ? '' : '.'%>./js/axios.min.js'></script>
+  <script src = '<%= obj.content !== undefined ? '' : '.'%>./javascripts/notice_edit.js'></script>
 </html>

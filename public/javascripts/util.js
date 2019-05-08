@@ -49,8 +49,23 @@ const u = {
     }
   },
 
-  axios: function(req_path, form){
-    axios.post(req_path, form)
+  axios: function(req_path, form, method){
+    let a;
+    
+    switch(method){
+      case 'post' :
+        a = axios.post(req_path, form);
+        break;
+      case 'put' :
+        a = axios.put(req_path, form);
+        break;
+      case 'delete' :
+        a = axios.delete(req_path, form);
+        break;
+      default :
+        break;
+    }
+      a
       .then((response) => {
         if(response.data.content){
           alert(response.data.content);

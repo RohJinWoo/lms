@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+  <head include-ejs="script.ejs">
     <title><%= obj.title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <style type="text/css">
@@ -30,6 +30,7 @@
             background: lightcyan;
         }
     </style>
+    <% include ./script %>
   </head>
   <body>
         <nav include-ejs="nav.ejs">
@@ -44,6 +45,8 @@
                     <b>공지사항</b>
                     <div><%= obj.notice[0].n_title %> | <%= obj.notice[0].createdAt %></div>
                     <div><%= obj.notice[1].n_title %> | <%= obj.notice[1].createdAt %></div>
+                    <div><%= obj.notice[2].n_title %> | <%= obj.notice[2].createdAt %></div>
+                    <div><%= obj.notice[3].n_title %> | <%= obj.notice[3].createdAt %></div>
                 </article>
                 <article class="users" id="std">강의진행도
                     <div><%= obj.sub_prog[0].cource_name %> | <%= obj.sub_prog[0].progress %></div>

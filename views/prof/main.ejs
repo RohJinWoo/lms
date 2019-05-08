@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= obj.title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <style type="text/css">
-        body > nav, body > section {
-            float: left;
-            height : 200px;
-        }
-        .users{
-            float: left;
-        }
-        nav{
-            background: lightgreen;
-        }
-        header{
-            background: lightblue;
-        }
-        section{
-            background: lightpink;
-            width: 80%;
-        }
-        section > article{
-            background: lightgray;
-            margin: 5px 5px 5px 5px;
-        }
-        table td {
-            border : solid 1px;
-        }
-    </style>
+    <head include-ejs="script.ejs">
+      <title><%= obj.title %></title>
+      <link rel='stylesheet' href='/stylesheets/style.css' />
+      <style type="text/css">
+          body > nav, body > section {
+              float: left;
+              height : 200px;
+          }
+          .users{
+              float: left;
+          }
+          nav{
+              background: lightgreen;
+          }
+          header{
+              background: lightblue;
+          }
+          section{
+              background: lightpink;
+          }
+          section > article:nth-child(1){
+              background: lightsalmon;
+          }
+          section > article:nth-child(2){
+              background: lightcoral;
+          }
+          section > article:nth-child(3){
+              background: lightcyan;
+          }
+      </style>
+      <% include ./script %>
   </head>
   <body>
       <nav>
@@ -41,8 +44,10 @@
         <section>
             <article>
                 <b>공지사항</b>
-                <div><%= obj.notice[0].title %> | <%= obj.notice[0].date %></div>
-                <div><%= obj.notice[1].title %> | <%= obj.notice[1].date %></div>
+                <div><%= obj.notice[0].n_title %> | <%= obj.notice[0].createdAt %></div>
+                <div><%= obj.notice[1].n_title %> | <%= obj.notice[1].createdAt %></div>
+                <div><%= obj.notice[2].n_title %> | <%= obj.notice[2].createdAt %></div>
+                <div><%= obj.notice[3].n_title %> | <%= obj.notice[3].createdAt %></div>
             </article>
             <article>
             </article>

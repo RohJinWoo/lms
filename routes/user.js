@@ -10,7 +10,7 @@ router.post('/login_std',  (req, res) => {
     // 로그인 관련 처리 및 세션 생성
     stdController.login(req, res)
     .then(result => {
-        console.log("result : ",result);
+        console.log("login_std result : ",result);
         if(result[0] !== undefined){
             req.session.std_id = result[0];
             res.send( { link : '../std/main' } );
@@ -27,9 +27,9 @@ router.post('/login_prof', (req, res) => {
     // 로그인 관련 처리 및 세션 생성
     profController.login(req, res)
     .then(result => {
-        console.log(result);
+        console.log("login_prof result : ",result);
         if(result[0] !== undefined){
-            req.session.p_id = result[0];
+            req.session.prof_id = result[0];
             res.send( { link : '../prof/main' } );
         }else{
             res.send( { errMessage : "요청하신 회원 정보가 일치하지 않습니다. (교육자 로그인)" } );
@@ -113,7 +113,7 @@ router.post('/change_pw', (req, res) => {
         // 회원가입 관련 처리
         if(result[0] === 1){
             console.log(result);
-            req.session.l_id = undefined;
+            req.session.destroy();
             res.send( { content : "입력하신 내용으로 비밀번호 변경이 완료되었습니다.", link : '/' } );
         }else{
             res.send( { errMessage : "요청이 올바르게 처리되지 않았습니다." } );
@@ -125,8 +125,13 @@ router.post('/change_pw', (req, res) => {
     });
 });
 
-router.post("/redundancy_check", (req, res) => {
+// 회원가입시 ID중복 검사
+router.post('/redundancy_check', (req, res) => {
     userController.redundancy_check(req, res);
-})
+});
+
+router.get('/logout', (req, res) => {
+    userController.logout(req, res);
+});
 
 module.exports = router;

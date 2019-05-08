@@ -44,7 +44,7 @@ module.exports = {
             if(result !== undefined){
                 console.log("create complete! 이메일 인증해주시기 바랍니다.");
                 console.log('email sent: ' + info.response);
-                req.session.redundancy_check = undefined;
+                req.session.destroy();
                 res.send( { link : 'user/sign_auth/?email=' + email + "&id=" + id } );
             }
         })
@@ -93,6 +93,43 @@ module.exports = {
         })
         .catch(err => {
             console.log("redundancy_check() 에러 발생!!", err);
-        })
+        });
     },
+
+    logout(req, res){
+        console.log("req.session :::: ", req.session);
+        if(req.session.prof_id !== undefined){
+            req.session.destroy();
+        }else if(req.session.std_id !== undefined){
+            req.session.destroy();
+        }else{
+            res.redirect('/');
+        }
+        console.log("req.session처리 이후 :: ", req.session);
+        res.redirect('/');
+    },
+
+    login_access(req, res, next){
+        if(req.session.std_id === undefined && req.session.prof_id === undefined){
+            res.redirect('/');
+        }else if(req.session.std_id !== undefined && req.baseUrl === "/prof"){
+            res.redirect('/std/main');
+        }else if(req.session.prof_id !== undefined && req.baseUrl === "/std"){
+            res.redirect('/prof/main');
+        }
+        console.log("login_check() req.session : ", req.session);
+        console.log("req.baseUrl :: ", req.baseUrl);
+        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        next();
+    },
+
+    login_check(req, res, next){
+        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        if(req.session.std_id !== undefined){
+          res.redirect('/std/main');
+        }else if(req.session.prof_id !== undefined){
+          res.redirect('/prof/main');
+        }
+        next();
+    }
 };

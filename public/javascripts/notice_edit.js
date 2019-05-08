@@ -32,13 +32,17 @@ function getTimeStamp() {
     return zero + n;
   }  
 
-  var createNotice = function() {
+  var createNotice = function(req) {
     let title = u.qu('#title').value;
     let content = u.qu('#content').value;
 
     if(!(title === "") && !(content === "")){
       console.log("createNotice 실행");
-      u.axios('/notice/create', { title : title, content : content, now : getTimeStamp() } );
+      if(req === "create"){
+        u.axios('/notice/create', { title : title, content : content, now : getTimeStamp() }, "post" );
+      }else if(req === "update"){
+        u.axios('/notice/update' + location.search, { title : title, content : content, update : getTimeStamp() }, "put" );
+      }
     }else{
       alert("다 입력");
     }

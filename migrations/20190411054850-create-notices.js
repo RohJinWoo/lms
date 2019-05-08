@@ -4,6 +4,7 @@ module.exports = {
     return queryInterface.createTable('Notices', {
       n_id: {
         type: Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
         allowNull: false,
       },

@@ -2,14 +2,19 @@
 <html>
     <head>
         <title><%= obj !== undefined ? obj.title : '' %></title>
+        <script src="../javascripts/util.js"></script>
+        <script src="../js/axios.min.js"></script>
+        <script src="../javascripts/notice.js"></script>
     </head>
     <body>
         <form id="form" onsubmit="return subclose()">
-            <h1>제목 : <%= obj !== undefined ? obj.title : '' %></h1>
-            날짜 : <%= obj.createdAt !== undefined ? obj.createdAt : '' %>
+            <h1>제목 : <span id="title" name="title"><%= obj !== undefined ? obj.title : '' %></span></h1>
+            날짜 : <span id = "date" name="date"><%= obj.createdAt !== undefined ? obj.createdAt : '' %></span>
             <div>
-                <p>내용 : <%= obj.content !== undefined ? obj.content : '내용 없음' %></p>
+                <p>내용 : <span id="content" name="content"><%= obj.content !== undefined ? obj.content : '내용 없음' %></span></p>
             </div>
+            <button type="button" onclick="mod()">수정</button>
+            <button type="button" onclick="del()">삭제</button>
         </form>
     </body>
 </html>

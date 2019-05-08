@@ -1,6 +1,7 @@
 module.exports = {
   auth(req, res, next){
     console.log('req.body : ', req.body);
+    console.log("destroy 확인 req.session :::: ", req.session);
     if(req.session.email_auth !== undefined){
       console.log('req ===================================>>>>>>>>>>>>>>>>>>>>>>> ');
       console.log(req.body);
@@ -17,7 +18,8 @@ module.exports = {
       }
       else
       {
-        req.session.email_auth = undefined; 
+        req.session.destroy();
+        console.log("session.destroy()함", req.session);
         res.send( { errMessage : "이메일 인증처리 도중 에러가 발생하였습니다." } );
       }
     }
