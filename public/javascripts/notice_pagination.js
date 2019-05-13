@@ -28,16 +28,20 @@ var ss = function(form){
   axios.post('/notice/pagination', form)
   .then((response) => {
     console.log(response.data.notice);
+    console.log(response.data.notice.length);
     var node = document.createElement('div');
     board.childNodes[0] === undefined ? null : board.removeChild(board.childNodes[0]);
-    for(var data in response.data.notice){
-      var p = document.createElement('p');
-      var li  = document.createElement('a')
-      li.setAttribute('href','notice?notice_num='+response.data.notice[data].n_id);
-      li.appendChild(document.createTextNode(response.data.notice[data].n_title + ", " + response.data.notice[data].createdAt));
-      p.appendChild(li);
-      node.appendChild(p);
-    }
+    if(response.data.notice.length !== 0){
+      // 검색 결과가 없으면 조건문 false
+      for(var data in response.data.notice){
+        var p = document.createElement('p');
+        var li  = document.createElement('a')
+        li.setAttribute('href','notice?notice_num='+response.data.notice[data].n_id);
+        li.appendChild(document.createTextNode(response.data.notice[data].n_title + ", " + response.data.notice[data].createdAt));
+        p.appendChild(li);
+        node.appendChild(p);
+      }
+    }  
     console.log(node);
     board.appendChild(node);
   });

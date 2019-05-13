@@ -41,19 +41,9 @@
                 공백 및 타이틀
             </header>
             <section>
-                <article>
-                    <b>공지사항</b>
-                    <div><%= obj.notice[0].n_title %> | <%= obj.notice[0].createdAt %></div>
-                    <div><%= obj.notice[1].n_title %> | <%= obj.notice[1].createdAt %></div>
-                    <div><%= obj.notice[2].n_title %> | <%= obj.notice[2].createdAt %></div>
-                    <div><%= obj.notice[3].n_title %> | <%= obj.notice[3].createdAt %></div>
-                    <a href="/std/notice">더보기</a>
+                <article include-ejs="../notice/notice_board.ejs">
+                    <% include ../notice/notice_board %>
                 </article>
-                <article class="users" id="std">강의진행도
-                    <div><%= obj.sub_prog[0].cource_name %> | <%= obj.sub_prog[0].progress %></div>
-                    <div><%= obj.sub_prog[1].cource_name %> | <%= obj.sub_prog[1].progress %></div>
-                </article>
-                <article class="users">내용들어가</article>
             </section>
         </section>
   </body>

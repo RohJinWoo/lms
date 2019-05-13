@@ -1,0 +1,11 @@
+<form id="form">
+    <input type="text" name="filename" id="filename">
+    <button onclick="download()">다운받기</button>
+</form>
+
+<script src="/javascripts/util.js"></script>
+<script>
+    var download = function(){
+        u.form(u.qu('#form'), '/file_sample/download?download=' + u.qu('#filename').value, 'post');
+    }
+</script>

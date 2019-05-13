@@ -11,7 +11,8 @@ var indexRouter = require('./routes/index'),
     apiRouter = require('./routes/api'),
     emailRouter = require('./routes/email'),
     userRouter = require('./routes/user'),
-    noticeRouter = require('./routes/notice');
+    noticeRouter = require('./routes/notice'),
+    file_sampleRouter = require('./routes/file_sample');
 
 var app = express();
 
@@ -40,6 +41,9 @@ app.use('/api', apiRouter);
 app.use('/email', emailRouter);
 app.use('/user', userRouter);
 app.use('/notice', noticeRouter);
+app.use('/file_sample', file_sampleRouter);
+
+app.use('/file_sample', express.static('uploads/'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

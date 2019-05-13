@@ -51,7 +51,6 @@ const u = {
 
   axios: function(req_path, form, method){
     let a;
-    
     switch(method){
       case 'post' :
         a = axios.post(req_path, form);
@@ -63,27 +62,30 @@ const u = {
         a = axios.delete(req_path, form);
         break;
       default :
+        a = axios.get(req_path, form);
         break;
     }
-      a
-      .then((response) => {
-        if(response.data.content){
-          alert(response.data.content);
-        }
-        if(response.data.errMessage){
-          alert(response.data.errMessage);
-        }
-        if(response.data.link){
-          location.href = response.data.link;
-        }
-        if(response.data.console){
-          console.log(response.data.console);
-        }
-      })
-      .catch((err) => {
-        console.log('에러가 발생하였습니다.');
-        console.log('에러 내용 : ', err);
-      });
+
+    a
+    .then((response) => {
+      console.log(response.data);
+      if(response.data.content){
+        alert(response.data.content);
+      }
+      if(response.data.errMessage){
+        alert(response.data.errMessage);
+      }
+      if(response.data.link){
+        location.href = response.data.link;
+      }
+      if(response.data.console){
+        console.log(response.data.console);
+      }
+    })
+    .catch((err) => {
+      console.log('에러가 발생하였습니다.');
+      console.log('에러 내용 : ', err);
+    });
   },
 }
 

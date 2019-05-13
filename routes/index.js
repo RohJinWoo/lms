@@ -18,8 +18,5 @@ router.get('/find_id', userController.login_check, function(req, res, next){
 router.get('/find_pw', userController.login_check, function(req, res, next){
   res.render('login/find_pw', {obj : {title:"PW 찾기"}});
 });
-router.get('/change_pw', userController.login_check, function(req, res, next){
-  res.render('login/change_pw', {obj : {title:"PW 변경"}});
-});
 
 module.exports = router;

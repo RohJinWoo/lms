@@ -20,6 +20,7 @@ router.get('/main', userController.login_access, (req, res) => {
   });
 })
 
+// 수강 신청
 router.get('/sign-up-class', userController.login_access, (req, res) => {
     Promise.all([courceController.find(req, res)])
     .then( value => {
@@ -32,6 +33,7 @@ router.get('/sign-up-class', userController.login_access, (req, res) => {
     });
 });
 
+// 수강 조회
 router.get('/check-class', userController.login_access, (req, res) => {
   Promise.all([courceController.find(req, res)])
   .then( value => {
@@ -44,6 +46,7 @@ router.get('/check-class', userController.login_access, (req, res) => {
   });
 });
 
+// 시험 보기
 router.get('/exam', userController.login_access, (req, res) => {
   Promise.all([courceController.exam_find(req, res)])
   .then( value => {
@@ -56,6 +59,7 @@ router.get('/exam', userController.login_access, (req, res) => {
   });
 });
 
+// 성적 조회
 router.get('/check-grade', userController.login_access, (req, res) => {
   Promise.all([studentController.std_year(req, res)])
   .then( value => {
@@ -68,6 +72,7 @@ router.get('/check-grade', userController.login_access, (req, res) => {
   });
 });
 
+// 강의 평가
 router.get('/rating-class', userController.login_access, (req, res) => {
   Promise.all([courceController.rating_class_find(req, res)])
   .then( value => {
@@ -78,6 +83,27 @@ router.get('/rating-class', userController.login_access, (req, res) => {
   .catch( err => {
     res.status(400).send(err);
   });
+});
+
+router.get('/notice', (req, res) => {
+  if(req.query.notice_num === undefined){
+    res.render('std/notice', { obj : { title : '공지사항', nowpage : 1 } } );
+  }else{
+    noticeController.findOne(req, res)
+    .then(result => {
+        console.log(req.query);
+        if(result[0] !== undefined){
+            var obj = { id : result[0].n_id, title : result[0].n_title, content : result[0].n_content, createdAt : result[0].createdAt };
+            console.log("result :::: ",result[0]);
+            res.render("std/notice_board", { obj } );
+        }else{
+            res.redirect('/std/notice');
+        }
+    })
+    .catch(err => {
+        res.status(400).send(err);
+    })
+  }
 });
 
 module.exports = router;

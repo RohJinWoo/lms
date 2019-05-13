@@ -31,21 +31,12 @@ module.exports = {
     },
 
     create(req, res){
+        console.log(req.body);
         return sequelize
         .query(
             'INSERT INTO Notices(n_title, n_content, createdAt, updatedAt) VALUES(?, ?, ?, ?)',
             { replacements: [ req.body.title, req.body.content, req.body.now, req.body.now ], type: sequelize.QueryTypes.INSERT }
         )
-        .then(result => {
-            console.log("/notice", req.route.path);
-            console.log('result :::::: ', result);
-            if(result[0]){
-                console.log("req.body   ::::::::    ", req.body);
-                console.log("/notice/create");
-                res.send( { content : "생성 완료", link : "/notice" } );
-            }
-            res.send( { errMessage : "에러발생" } );
-        })
         .catch(err => {
             console.log("create() 에러 발생!!!!! ", err);
         });
@@ -77,15 +68,7 @@ module.exports = {
     update(req, res){
         return sequelize
         .query('UPDATE notices SET n_title = ?, n_content = ?, updatedAt = ? WHERE n_id = ?',
-        { replacements : [req.body.title, req.body.content,req.body.update, req.query.notice_num], type : sequelize.QueryTypes.UPDATE } )
-        .then(result => {
-            console.log("notice/update : ", result);
-            if(result[1] === 1){
-                res.send( { content : "공지사항 변경이 완료되었습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
-            }else{
-                res.send( { errMessage : "공지사항 변경도중 에러가 발생하였습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
-            }
-        })
+        { replacements : [ req.body.title, req.body.content,req.body.update, req.query.notice_num ], type : sequelize.QueryTypes.UPDATE } )
         .catch(err => {
             console.log("noticeController update() 에러 발생", err);
         })
@@ -95,21 +78,17 @@ module.exports = {
         return sequelize
         .query('DELETE FROM notices WHERE n_id = ?',
         { replacements : [parseInt(req.query.notice_num)], type : sequelize.QueryTypes.DELETE } )
-        .then(() => {
-            return sequelize
-            .query('SELECT count(*) as count FROM notices WHERE n_id = ?',
-            { replacements : [req.query.notice_num], type : sequelize.QueryTypes.SELECT } )
-            .then(result => {
-                console.log(result);
-                if(result[0].count === 0){
-                    res.send( { content : "공지사항 삭제가 성공적으로 완료되었습니다!", link : "/notice" } );
-                }else{
-                    res.send( { content : "공지사항 삭제가 정상적으로 이루어지지 않았습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
-                }
-            })
-        })
         .catch(err => {
             console.log("noticeController delete() 에러 발생", err);
+        })
+    },
+
+    select(req, res){
+        return sequelize
+        .query('SELECT count(*) as count FROM notices WHERE n_id = ?',
+        { replacements : [req.query.notice_num], type : sequelize.QueryTypes.SELECT } )
+        .catch(err => {
+            console.log("noticeController select() 에러 발생", err);
         })
     }
 }

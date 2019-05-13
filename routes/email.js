@@ -30,7 +30,16 @@ router.post('/sign_auth', (req, res) => {
         console.log("회원가입 이메일 에러", err);
         res.send( { errMessage : "인증 이메일을 전송하지 못했습니다." + "\n" + "이메일을 다시 한번 확인바랍니다." } );
       }else{
-        userController.sign_up(req, res);
+        userController.sign_up(req, res)
+        .then((result) => {
+            console.log("result : ", result);
+            if(result !== undefined){
+                console.log("create complete! 이메일 인증해주시기 바랍니다.");
+                console.log('email sent: ' + info.response);
+                req.session.destroy();
+                res.send( { link : 'user/sign_auth/?email=' + email + "&id=" + id } );
+            }
+        });
       };
     });
   }else{

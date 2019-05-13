@@ -46,7 +46,6 @@ router.get('/sign_auth', (req, res) => {
 
 router.post('/find_id', emailController.auth, (req, res) => {
     userController.select(req, res, {
-        type : "id",
         data : {
              where : {
                 l_name : req.body.u_name,
@@ -55,8 +54,8 @@ router.post('/find_id', emailController.auth, (req, res) => {
         })
     .then(result => {
         // 회원가입 관련 처리
-        console.log(result);
-        res.send( { content : "찾으시는 ID는 [ " + result + " ]입니다.", link : '/' } );
+        console.log("find_id result :::: ", result);
+        res.send( { content : "찾으시는 ID는 [ " + result.l_id + " ]입니다.", link : '/' } );
     })
     .catch((err) => {
         console.log(err); res.send( { errMessage : "ID를 찾는 도중 에러가 발생하였습니다." } );
@@ -65,7 +64,6 @@ router.post('/find_id', emailController.auth, (req, res) => {
 
 router.post('/find_pw', emailController.auth, (req, res) => {
     userController.select(req, res, {
-        type : "pw",
         data : {
             where : { 
                 l_id : req.body.u_id,
@@ -76,8 +74,8 @@ router.post('/find_pw', emailController.auth, (req, res) => {
     })
     .then(result => {
         // 회원가입 관련 처리
-        console.log('result :::: ',result, "       result.result      :::::::    ", result.result);
-        if(result.result){
+        console.log('result :::: ',result);
+        if(result !== null){
             var sess = req.session;
             sess.l_id = result.l_id;
             console.log("req.session.l_id ====================== ", req.session.l_id);
@@ -96,11 +94,11 @@ router.get('/find_pw', (req, res) => {
     if(req.session.l_id){
         res.render('login/change_pw', { obj : { title : "비밀번호 재설정" } } );
     }else{
-        res.send("잘못된 접근입니다.");
+        res.render("error");
     }
 })
 
-router.post('/change_pw', (req, res) => {
+router.put('/change_pw', (req, res) => {
     userController.update(req, res, {
         password : req.body.password
     },
@@ -127,11 +125,29 @@ router.post('/change_pw', (req, res) => {
 
 // 회원가입시 ID중복 검사
 router.post('/redundancy_check', (req, res) => {
-    userController.redundancy_check(req, res);
+    userController.redundancy_check(req, res)
+    .then(result => {
+        console.log("redundancy_check() result :: ", result[0]);
+        if(result[0] !== undefined){
+            res.send( { content : "이미 존재하는 ID입니다.\n" + "다른 ID를 입력하시기 바랍니다." } );
+        }else{
+            req.session.redundancy_check = req.body.u_id;
+            res.send( { content : "사용가능한 ID입니다." } );
+        }
+    });
 });
 
 router.get('/logout', (req, res) => {
-    userController.logout(req, res);
+    console.log("req.session :::: ", req.session);
+    if(req.session.prof_id !== undefined){
+        req.session.destroy();
+    }else if(req.session.std_id !== undefined){
+        req.session.destroy();
+    }else{
+        res.redirect('/');
+    }
+    console.log("req.session처리 이후 :: ", req.session);
+    res.redirect('/');
 });
 
 module.exports = router;
