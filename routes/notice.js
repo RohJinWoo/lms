@@ -62,19 +62,19 @@ router.post('/create', (req, res) => {
             console.log("/notice/create");
             res.send( { content : "생성 완료", link : "/notice" } );
         }
-        res.send( { errMessage : "에러발생" } );
+        res.send( { content : "에러발생" } );
     });
 });
 
 router.put('/update', (req, res) => {
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     noticeController.update(req, res)
     .then(result => {
-        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
         console.log("notice/update : ", result);
         if(result[1] === 1){
             res.send( { content : "공지사항 변경이 완료되었습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
         }else{
-            res.send( { errMessage : "공지사항 변경도중 에러가 발생하였습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
+            res.send( { content : "공지사항 변경도중 에러가 발생하였습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
         }
     });
 });
@@ -96,12 +96,12 @@ router.delete('/delete', (req, res) => {
     })
 });
 
-router.get('/count', (req, res) => {
-    noticeController.count(req)
-    .then(result => {
-        console.log("/notice", req.route.path);
-        res.send(req.body.allnotice + " / 확인용");
-    });
-});
+// router.get('/count', (req, res) => {
+//     noticeController.count(req)
+//     .then(result => {
+//         console.log("/notice", req.route.path);
+//         res.send(req.body.allnotice + " / 확인용");
+//     });
+// });
 
 module.exports = router;

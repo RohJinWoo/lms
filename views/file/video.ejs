@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Video stream sample</title>
+
+    <link href="../js/video-js.css" rel="stylesheet">
+
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    <!-- <script src="../js/video.min.js"></script> -->
+    <script src="../js/video.js"></script>
+
+  </head>
+  <body>
+    dmdmdmdmdmgmammdskaafjlkasjflkasj
+    <video id='my-video' class='video-js' controls preload='auto' width='640' height='264'
+    data-setup='{}'> 
+        <source src="http://localhost:3000/file_sample/stream" type="video/mp4">
+        <p class='vjs-no-js'>
+          To view this video please enable JavaScript, and consider upgrading to a web browser that
+          <a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
+        </p>
+    </video>
+  </body>
+  <script src="/javascripts/util.js"></script>
+  <script>
+   videojs.autoSetup();
+
+videojs('my_video').ready(function(){
+  console.log(this.options()); //log all of the default videojs options
+  
+   // Store the video object
+  var myPlayer = this, id = myPlayer.id();
+  // Make up an aspect ratio
+  var aspectRatio = 264/640; 
+
+  function resizeVideoJS(){
+    var width = document.getElementById(id).parentElement.offsetWidth;
+    myPlayer.width(width).height( width * aspectRatio );
+
+  }
+  
+  // Initialize resizeVideoJS()
+  resizeVideoJS();
+  // Then on resize call resizeVideoJS()
+  window.onresize = resizeVideoJS; 
+});
+</script>
+</html>

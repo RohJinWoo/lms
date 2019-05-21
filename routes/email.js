@@ -24,7 +24,8 @@ router.post('/sign_auth', (req, res) => {
       subject: 'LMS 회원가입 인증',
       html: '<h1>메일 인증</h1>' + email + '<p><a href="http://localhost:3000/email/signauth/?email=' + email + '&id=' + id + '&token=' + token + '">인증하기</a></p>'
     };
-
+    console.log('<a href="http://localhost:3000/email/signauth/?email=' + email + '&id=' + id + '&token=' + token + '">인증하기</a>');
+    console.log(id);
     transporter.sendMail(mailOptions, function(err, info){
       if(err){
         console.log("회원가입 이메일 에러", err);
@@ -110,26 +111,26 @@ router.post('/emailpost', (req, res) => {
   router.get('/signauth', (req, res) => {
     userController.update(req, res, {
     token : null
-  },{
-    where : {
-      token : req.query.token,
-      l_id : req.query.id,
-      email : req.query.email
-    }
-  })
-  .then(result => {
-    if(result[0] === 1){
-      res.send("회원가입 인증 처리가 완료되었습니다.");
-    }else{
-      res.send("회원가입 인증 요청이 올바르지 않습니다.");
-    }
-  })
-  .catch(err => {
-    console.log("회원가입 인증 처리 도중 에러 : ");
-    console.log(err);
-    console.log("=======================================");
-    res.send("회원가입 인증 처리 도중 에러가 발생하였습니다.", err);
-  })
+    },{
+      where : {
+        token : req.query.token,
+        l_id : req.query.id,
+        email : req.query.email
+      }
+    })
+    .then(result => {
+      if(result[0] === 1){
+        res.send("회원가입 인증 처리가 완료되었습니다.");
+      }else{
+        res.send("회원가입 인증 요청이 올바르지 않습니다.");
+      }
+    })
+    .catch(err => {
+      console.log("회원가입 인증 처리 도중 에러 : ");
+      console.log(err);
+      console.log("=======================================");
+      res.send("회원가입 인증 처리 도중 에러가 발생하였습니다.", err);
+    })
   });
   
   module.exports = router;

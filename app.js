@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 
+const helmet = require('helmet');
+
 var indexRouter = require('./routes/index'),
     studentsRouter = require('./routes/students'),
     professorsRouter = require('./routes/professors'),
@@ -33,6 +35,8 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules', 'axios', 'dist')));
+app.use('/js', express.static(path.join(__dirname, 'node_modules', 'video.js', 'dist')));
+app.use('/css', express.static(path.join(__dirname, 'node_modules', 'videojs-font')));
 
 app.use('/', indexRouter);
 app.use('/std', studentsRouter);
@@ -44,6 +48,8 @@ app.use('/notice', noticeRouter);
 app.use('/file_sample', file_sampleRouter);
 
 app.use('/file_sample', express.static('uploads/'));
+app.use(helmet());
+app.disable('x-powered-by');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

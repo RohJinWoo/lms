@@ -15,7 +15,7 @@ router.post('/login_std',  (req, res) => {
             req.session.std_id = result[0];
             res.send( { link : '../std/main' } );
         }else{
-            res.send( { errMessage : "요청하신 회원 정보가 일치하지 않습니다. (학습자 로그인)" } );
+            res.send( { content : "요청하신 회원 정보가 일치하지 않습니다. (학습자 로그인)" } );
         }
     })
     .catch(err => {
@@ -32,7 +32,7 @@ router.post('/login_prof', (req, res) => {
             req.session.prof_id = result[0];
             res.send( { link : '../prof/main' } );
         }else{
-            res.send( { errMessage : "요청하신 회원 정보가 일치하지 않습니다. (교육자 로그인)" } );
+            res.send( { content : "요청하신 회원 정보가 일치하지 않습니다. (교육자 로그인)" } );
         }
     })
     .catch(err => {
@@ -81,7 +81,7 @@ router.post('/find_pw', emailController.auth, (req, res) => {
             console.log("req.session.l_id ====================== ", req.session.l_id);
             res.send( { link : "user/find_pw" } );
         }else{
-            res.send( { errMessage : "입력하신 정보가 올바르지 않습니다." } );
+            res.send( { content : "입력하신 정보가 올바르지 않습니다." } );
         }
     })
     .catch((err) => {
@@ -114,7 +114,7 @@ router.put('/change_pw', (req, res) => {
             req.session.destroy();
             res.send( { content : "입력하신 내용으로 비밀번호 변경이 완료되었습니다.", link : '/' } );
         }else{
-            res.send( { errMessage : "요청이 올바르게 처리되지 않았습니다." } );
+            res.send( { content : "요청이 올바르게 처리되지 않았습니다." } );
         }
     })
     .catch((err) => {
