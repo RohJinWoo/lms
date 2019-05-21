@@ -32,10 +32,11 @@ module.exports = {
 
     create(req, res){
         console.log(req.body);
+        console.log(req.file);
         return sequelize
         .query(
-            'INSERT INTO Notices(n_title, n_content, createdAt, updatedAt) VALUES(?, ?, ?, ?)',
-            { replacements: [ req.body.title, req.body.content, req.body.now, req.body.now ], type: sequelize.QueryTypes.INSERT }
+            'INSERT INTO Notices(n_title, n_content, filepath, createdAt, updatedAt) VALUES(?, ?, ?, ?, ?)',
+            { replacements: [ req.body.title, req.body.content, req.file.filename !== undefined ? req.file.filename : null, req.query.now, req.query.now ], type: sequelize.QueryTypes.INSERT }
         )
         .catch(err => {
             console.log("create() 에러 발생!!!!! ", err);
@@ -45,7 +46,7 @@ module.exports = {
     nowpage(req, res){
         console.log(req.body);
         return sequelize
-        .query('SELECT n_id, n_title, createdAt FROM notices ORDER BY n_id DESC LIMIT ?, 10'
+        .query('SELECT n_id, n_title, CASE WHEN filepath IS NULL THEN false ELSE true END AS uploadfile, createdAt FROM notices ORDER BY n_id DESC LIMIT ?, 10'
         , { replacements: [ (req.body.nowpage - 1) * 10 ], type: sequelize.QueryTypes.SELECT } )
         // .then(result => {
         //     console.log(result);
@@ -68,7 +69,17 @@ module.exports = {
     update(req, res){
         return sequelize
         .query('UPDATE notices SET n_title = ?, n_content = ?, updatedAt = ? WHERE n_id = ?',
-        { replacements : [ req.body.title, req.body.content,req.body.update, req.query.notice_num ], type : sequelize.QueryTypes.UPDATE } )
+        { replacements : [ req.body.title, req.body.content, req.query.now, req.query.notice_num ], type : sequelize.QueryTypes.UPDATE } )
+        .catch(err => {
+            console.log("noticeController update() 에러 발생", err);
+        })
+    },
+
+    fileupdate(req, res){
+        // console.log("fileupdate controller req.file.filename ::: ", req.file.filename);
+        return sequelize
+        .query('UPDATE notices SET n_title = ?, n_content = ?, filepath = ?, updatedAt = ? WHERE n_id = ?',
+        { replacements : [ req.body.title, req.body.content, req.file !== undefined ? req.file.filename : null, req.query.now, req.query.notice_num ], type : sequelize.QueryTypes.UPDATE } )
         .catch(err => {
             console.log("noticeController update() 에러 발생", err);
         })

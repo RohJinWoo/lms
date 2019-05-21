@@ -49,6 +49,7 @@ router.post('/upload', (req, res) => {
             console.log(err.message);
             res.send("에러" + err);
         }else{
+            console.log(req.file);
             res.redirect('./list');
         }
     });

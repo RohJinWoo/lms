@@ -35,8 +35,6 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules', 'axios', 'dist')));
-app.use('/js', express.static(path.join(__dirname, 'node_modules', 'video.js', 'dist')));
-app.use('/css', express.static(path.join(__dirname, 'node_modules', 'videojs-font')));
 
 app.use('/', indexRouter);
 app.use('/std', studentsRouter);

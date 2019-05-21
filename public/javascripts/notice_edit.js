@@ -32,6 +32,7 @@ function getTimeStamp() {
     return zero + n;
   }  
 
+    let file = u.qu('#userfile');
   var createNotice = function(req) {
     let title = u.qu('#title').value;
     let content = u.qu('#content').value;
@@ -39,11 +40,25 @@ function getTimeStamp() {
     if(!(title === "") && !(content === "")){
       console.log("createNotice 실행");
       if(req === "create"){
-        u.axios('/notice/create', { title : title, content : content, now : getTimeStamp() }, "post" );
+        u.form(u.qu('#form'), '/notice/create?now=' + getTimeStamp(), 'post');
+        // u.axios('/notice/create', { title : title, content : content, file : file.value, now : getTimeStamp() }, "post" );
       }else if(req === "update"){
-        u.axios('/notice/update' + location.search, { title : title, content : content, update : getTimeStamp() }, "put" );
+        if(file.disabled){
+          console.log('/notice/update' + location.search + "&now=" + getTimeStamp());
+          u.axios('/notice/update' + location.search + "&now=" + getTimeStamp(), { title : title, content : content, file : file.value}, "put" );
+        }
+          u.form(u.qu('#form'), '/notice/fileupdate'+ location.search + "&now=" + getTimeStamp(), 'post');
       }
     }else{
       alert("다 입력");
+    }
+  }
+
+  var file_change = function(){
+    file.disabled = !file.disabled;
+    if(file.disabled){
+      u.qu('#file_changebutton').innerText = "첨부 파일 변경";
+    }else{
+      u.qu('#file_changebutton').innerText = "첨부 파일 변경 취소";
     }
   }

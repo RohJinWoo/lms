@@ -13,6 +13,15 @@
             <div>
                 <p>내용 : <span id="content" name="content"><%= obj.content !== undefined ? obj.content : '내용 없음' %></span></p>
             </div>
+            <div>
+                <p>첨부 파일 : 
+                    <% if(obj.filepath !== null){ %>
+                        <button type="button" onclick="download(<%=obj.id%>)">다운로드</button>
+                    <% }else{ %>
+                        없음
+                    <% } %>
+                </p>
+            </div>
             <button type="button" onclick="mod()">수정</button>
             <button type="button" onclick="del()">삭제</button>
         </form>

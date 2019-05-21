@@ -9,3 +9,7 @@ var del = function(){
         u.axios("/notice/delete" + location.search, {}, "delete");
     }
 }
+
+var download = function(id){
+    u.form(u.qu('#form'),'/notice/file_search?notice_num=' + id, 'post');
+}

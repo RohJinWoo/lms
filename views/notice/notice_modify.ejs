@@ -4,7 +4,7 @@
     <title>공지사항</title>
   </head>
   <body>
-      <form id="form" onsubmit="return subclose()">
+      <form id="form" onsubmit="return subclose()" enctype="multipart/form-data">
           <h1>공지사항</h1>
           <div>
             <input type="text" name="title" id="title" placeholder="제목" value="<%= obj !== undefined ? obj.title : '' %>">
@@ -12,6 +12,8 @@
           <div>
             <textarea name="content" id="content" cols="30" rows="10" placeholder="내용"><%= obj !== undefined ? obj.content : '' %></textarea>
           </div>
+            <p><button type="button" id="file_changebutton" onclick="file_change()">첨부 파일 변경</button></p>
+            <p><input type="file" name="userfile" id="userfile" disabled></p>
           <div>
             <button type="button" onclick="createNotice('update')">수정</button>
           </div>

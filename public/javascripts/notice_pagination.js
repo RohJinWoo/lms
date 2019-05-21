@@ -36,6 +36,7 @@ var ss = function(form){
       for(var data in response.data.notice){
         var p = document.createElement('p');
         var li  = document.createElement('a')
+        console.log(response.data.notice[data])
         li.setAttribute('href','notice?notice_num='+response.data.notice[data].n_id);
         li.appendChild(document.createTextNode(response.data.notice[data].n_title + ", " + response.data.notice[data].createdAt));
         p.appendChild(li);
