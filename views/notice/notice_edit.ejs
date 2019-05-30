@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>공지사항</title>
+    <link rel="stylesheet" href="/stylesheets/uploadfile_input.css"></link>
   </head>
   <body>
       <form id="form" onsubmit="return subclose()" enctype="multipart/form-data">
@@ -12,14 +13,14 @@
           <div>
             <textarea name="content" id="content" cols="30" rows="10" placeholder="내용"><%= obj !== undefined ? obj.content : '' %></textarea>
           </div>
-          <div>
-            <input type="file" name="userfile" id="userfile">
+          <div id = "customfile" class="filebox">
           </div>
           <div>
             <button type="button" onclick="createNotice('create')">생성</button>
           </div>
         </form>
   </body>
+  <script> var modify_file =[]; </script>
   <script src = '/javascripts/util.js'></script>
   <script src = '/js/axios.min.js'></script>
   <script src = '/javascripts/notice_edit.js'></script>

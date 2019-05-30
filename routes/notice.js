@@ -7,12 +7,10 @@ var fs = require('fs');
 var storage = multer.diskStorage({
     // 저장 경로(해당 경로에 디렉토리가 존재해야지만 가능)
     destination: (req, file, cb) => {
-        console.log("destination : ", req);
         cb(null, 'uploads/notices');
     },
     // 파일 이름
     filename: (req, file, cb) => {
-        console.log("filename : ", req);
         cb(null, Date.now() + "-" + file.originalname);
     }
 });
@@ -40,11 +38,11 @@ router.get('/', (req, res) => {
     if(req.query.notice_num === undefined){
         res.render('notice/notice', { obj : { title : "공지사항", nowpage : req.query.nowpage === undefined ? 1 : req.query.nowpage } } );
     }else{
-        noticeController.findOne(req, res)
+        Promise.all([noticeController.findOne(req, res), noticeController.filefindOne(req, res)])
         .then(result => {
-            console.log(req.query);
+            console.log("결과",result,"end");
             if(result[0] !== undefined){
-                var obj = { id : result[0].n_id, title : result[0].n_title, content : result[0].n_content, filepath : result[0].filepath, createdAt : result[0].createdAt };
+                var obj = { id : result[0][0].n_id, title : result[0][0].n_title, content : result[0][0].n_content, filepath : result[1], createdAt : result[0][0].createdAt };
                 console.log("result :::: ",result[0]);
                 if(req.query.m === 'write'){
                     res.render("notice/notice_modify", { obj } );
@@ -80,8 +78,8 @@ router.get('/edit', (req, res) => {
 });
 
 router.post('/create', (req, res) => {
-    // res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-    noticeupload.single('userfile')(req, res, (err) => {
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    noticeupload.array("userfile", 5)(req, res, (err) => {
         if(err){
             console.log("post create err발생", err);
             console.log(err.message);
@@ -89,11 +87,10 @@ router.post('/create', (req, res) => {
         }else{
             noticeController.create(req, res)
             .then(result => {
-                console.log("/notice", req.route.path);
-                console.log('result :::::: ', result);
                 if(result){
-                    console.log("req.body   ::::::::    ", req.body);
-                    console.log("/notice/create");
+                    for(var upload_cnt = 0; upload_cnt < req.files.length; upload_cnt++){
+                        noticeController.filecreate(req, res, upload_cnt);
+                    }
                     // res.send( { content : "생성 완료", link : "/notice" } );
                     res.redirect('/notice')
                 }else{
@@ -111,65 +108,46 @@ router.post('/create', (req, res) => {
     });
 });
 
-router.put('/update', (req, res) => {
-    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-    noticeController.update(req, res)
-    .then(result => {
-        console.log("notice/update : ", result);
-        if(result[1] === 1){
-            res.send( { content : "공지사항 변경이 완료되었습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
-        }else{
-            res.send( { content : "공지사항 변경도중 에러가 발생하였습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
-        }
-    });
-});
-
 router.post('/fileupdate', (req, res) => {
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-    noticeController.findOne(req, res)
-    .then(value => {
-        console.log("/fileupdate file_search value : ", value);
-        if(value[0].filepath !== null){
-            fs.unlink(filepath + "/" + value[0].filepath, (err) => {
-                if(err){
-                    res.send(filepath + "/" + req.file.filename, " => 업로드 디렉토리 내의 파일 삭제 도중 에러 발생!\n", err);
-                }
-            });
-        }
-    })
-    .catch(err => {
-        res.status(400).send(err);
-    });
-
-    noticeupload.single('userfile')(req, res, (err) => {
+    noticeupload.array("userfile", 5)(req, res, (err) => {
         if(err){
-            console.log("post create err발생", err);
-            console.log(err.message);
-            res.send("에러" + err);
-        }else{
-            noticeController.fileupdate(req, res)
-            .then(result => {
-                console.log("notice/update : ", result);
-                if(result[1] === 1){
-                    res.redirect( "/notice?notice_num=" + req.query.notice_num );
-                }else{
-                    res.send( "공지사항 변경도중 에러가 발생하였습니다!" );
+            console.log("에러",err);
+            res.send(err);
+        }else if(req.query.change !== "false"){
+            if(typeof(req.body.change_file) !== "string"){
+                for(var delete_cnt = 0; delete_cnt < req.body.change_file.length; delete_cnt++){
+                    fs.unlink(filepath + "/" + req.body.change_file[delete_cnt], (err) => {
+                        if(err){
+                            res.send(filepath + "/" + req.body.change_file[delete_cnt], " => 업로드 디렉토리 내의 파일 삭제 도중 에러 발생!\n", err);
+                        }
+                    });
                 }
-            });
+                noticeController.delete(req, res);
+            }else{
+                fs.unlink(filepath + "/" + req.body.change_file, (err) => {
+                    if(err){
+                        res.send(filepath + "/" + req.body.change_file, " => 업로드 디렉토리 내의 파일 삭제 도중 에러 발생!\n", err);
+                    }
+                });
+                noticeController.deleteOne(req, res);
+            }
         }
-    })
+        
+        for(var upload_cnt = 0; upload_cnt < req.files.length; upload_cnt++){
+            noticeController.fileupdatecreate(req, res, upload_cnt);
+        }
 
-
-    // fs.single()
-    // noticeController.update(req, res)
-    // .then(result => {
-    //     console.log("notice/update : ", result);
-    //     if(result[1] === 1){
-    //         res.send( { content : "공지사항 변경이 완료되었습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
-    //     }else{
-    //         res.send( { content : "공지사항 변경도중 에러가 발생하였습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
-    //     }
-    // });
+        noticeController.update(req, res)
+        .then(result => {
+            console.log("notice/update : ", result);
+            if(result[1] === 1){
+                res.redirect('/notice?notice_num=' + req.query.notice_num);
+            }else{
+                res.send("공지사항 변경도중 에러가 발생하였습니다!");
+            }
+        });
+    });
 });
 
 router.delete('/delete', (req, res) => {
@@ -190,11 +168,11 @@ router.delete('/delete', (req, res) => {
 });
 
 router.post('/file_search', (req, res) => {
-    noticeController.findOne(req, res)
+    noticeController.filefindOne(req, res)
     .then(value => {
         console.log("/file_search value : ", value);
         if(value[0].filepath !== null){
-            res.redirect("/file_sample/download?download=notices/" + value[0].filepath);
+            res.redirect("/file_sample/download?download=notices/" + value[req.query.num].filepath);
         }else{
             res.send( "요청한 내용에 관한 정보가 없습니다." );
         }

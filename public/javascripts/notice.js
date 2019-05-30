@@ -11,5 +11,6 @@ var del = function(){
 }
 
 var download = function(id){
-    u.form(u.qu('#form'),'/notice/file_search?notice_num=' + id, 'post');
+    console.log(id);
+    u.form(u.qu('#form'),'/notice/file_search?notice_num=' + id[0] + "&num=" + id[1], 'post');
 }

@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>공지사항</title>
+    <link rel="stylesheet" href="../stylesheets/uploadfile_input.css"></link>
   </head>
   <body>
       <form id="form" onsubmit="return subclose()" enctype="multipart/form-data">
@@ -12,14 +13,29 @@
           <div>
             <textarea name="content" id="content" cols="30" rows="10" placeholder="내용"><%= obj !== undefined ? obj.content : '' %></textarea>
           </div>
-            <p><button type="button" id="file_changebutton" onclick="file_change()">첨부 파일 변경</button></p>
-            <p><input type="file" name="userfile" id="userfile" disabled></p>
+          <div id = "customfile" class="filebox">
+          </div>
           <div>
             <button type="button" onclick="createNotice('update')">수정</button>
           </div>
+          <div id = "change_file"></div>
         </form>
   </body>
+    <script>
+      var modify_file = [];
+      <% if(obj.filepath.length !== 0) { %>
+        modify_file = <%- JSON.stringify(obj.filepath) %>
+      <% } %>
+    </script>
   <script src = '../javascripts/util.js'></script>
   <script src = '../js/axios.min.js'></script>
   <script src = '../javascripts/notice_edit.js'></script>
+  <script src = '../javascripts/uploadfile_modify.js'></script>
+  <% if(obj.filepath.length !== 0) { %>
+    <script>
+      <% for(var i = 0; i < obj.filepath.length; i++) { %>
+        createInputFile();
+      <% } %>
+    </script>
+  <% } %>
 </html>

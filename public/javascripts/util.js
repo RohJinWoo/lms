@@ -87,6 +87,36 @@ const u = {
       console.log('에러 내용 : ', err);
     });
   },
+
+  createTag : function(tag_name, attributes, textNode){
+    // tag_name : string
+    // attributes : { attribute : [ string ], value : [ string ] }
+    // attributes : (empty) null
+    // textNode : string
+    // textNode : (empty) null
+
+    var create = document.createElement(tag_name);
+    
+    if(attributes.attribute !== null){
+      for(var cnt = 0; cnt < attributes.attribute.length; cnt++){
+        create.setAttribute(attributes.attribute[cnt], attributes.value[cnt]);
+      }
+    }
+
+    if(textNode !== null){
+      create.appendChild(document.createTextNode(textNode));
+    }
+
+    return create;
+  },
+
+  updateAttribute(tag, updateAttribute, updateValue){
+    // tag : <>Tag
+    // updateAttribute : string
+    // updateValue : string
+    return tag.setAttribute(updateAttribute, updateValue);
+  },
+
 }
 
 function subclose(){

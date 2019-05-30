@@ -15,9 +15,11 @@
             </div>
             <div>
                 <p>첨부 파일 : 
-                    <% if(obj.filepath !== null){ %>
-                        <button type="button" onclick="download(<%=obj.id%>)">다운로드</button>
-                    <% }else{ %>
+                    <% if(obj.filepath.length !== 0) {
+                        for(var i = 0; i < obj.filepath.length; i++) { %>
+                            <button type="button" onclick="download([<%=obj.id%> , <%= i %>])"><%= obj.filepath[i].filepath %></button>
+                        <%  }
+                    } else { %>
                         없음
                     <% } %>
                 </p>

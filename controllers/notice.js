@@ -31,22 +31,33 @@ module.exports = {
     },
 
     create(req, res){
-        console.log(req.body);
-        console.log(req.file);
+        console.log("바디,",req.body, "바디종료");
+        console.log("파일",req.files.length);
         return sequelize
         .query(
-            'INSERT INTO Notices(n_title, n_content, filepath, createdAt, updatedAt) VALUES(?, ?, ?, ?, ?)',
-            { replacements: [ req.body.title, req.body.content, req.file.filename !== undefined ? req.file.filename : null, req.query.now, req.query.now ], type: sequelize.QueryTypes.INSERT }
+            'INSERT INTO Notices(n_title, n_content, createdAt, updatedAt) VALUES(?, ?, ?, ?)',
+            { replacements: [ req.body.title, req.body.content, req.query.now, req.query.now ], type: sequelize.QueryTypes.INSERT }
         )
         .catch(err => {
             console.log("create() 에러 발생!!!!! ", err);
         });
-     },
+    },
+
+    filecreate(req, res, upload_cnt){
+        return sequelize
+        .query(
+            'INSERT INTO notice_uploadfiles(n_id, filepath) VALUES((SELECT n_id FROM notices ORDER BY n_id DESC LIMIT 0, 1), ?)',
+            { replacements: [ req.files[upload_cnt].filename ], type : sequelize.query.INSERT }
+        )
+        .catch(err => {
+            console.log("filecreate" + upload_cnt + "() 에러 발생!!!! ", err);
+        });
+    },
     
     nowpage(req, res){
         console.log(req.body);
         return sequelize
-        .query('SELECT n_id, n_title, CASE WHEN filepath IS NULL THEN false ELSE true END AS uploadfile, createdAt FROM notices ORDER BY n_id DESC LIMIT ?, 10'
+        .query('SELECT n.n_id, n.n_title, n.createdAt, nu.file_cnt FROM notices n LEFT JOIN (SELECT n_id, count(filepath) as file_cnt FROM notice_uploadfiles GROUP BY n_id) nu ON n.n_id = nu.n_id ORDER BY n.n_id DESC LIMIT ?, 10'
         , { replacements: [ (req.body.nowpage - 1) * 10 ], type: sequelize.QueryTypes.SELECT } )
         // .then(result => {
         //     console.log(result);
@@ -66,32 +77,52 @@ module.exports = {
         })
     },
 
+    filefindOne(req, res){
+        return sequelize
+        .query('SELECT filepath FROM notice_uploadfiles WHERE n_id = ?',
+        { replacements : [req.query.notice_num] , type : sequelize.QueryTypes.SELECT } )
+        .catch(err => {
+            console.log("filefindOne() 에러 발생", err);
+        })
+    },
+
     update(req, res){
         return sequelize
         .query('UPDATE notices SET n_title = ?, n_content = ?, updatedAt = ? WHERE n_id = ?',
         { replacements : [ req.body.title, req.body.content, req.query.now, req.query.notice_num ], type : sequelize.QueryTypes.UPDATE } )
         .catch(err => {
             console.log("noticeController update() 에러 발생", err);
-        })
-    },
-
-    fileupdate(req, res){
-        // console.log("fileupdate controller req.file.filename ::: ", req.file.filename);
-        return sequelize
-        .query('UPDATE notices SET n_title = ?, n_content = ?, filepath = ?, updatedAt = ? WHERE n_id = ?',
-        { replacements : [ req.body.title, req.body.content, req.file !== undefined ? req.file.filename : null, req.query.now, req.query.notice_num ], type : sequelize.QueryTypes.UPDATE } )
-        .catch(err => {
-            console.log("noticeController update() 에러 발생", err);
+            res.select("noticeController update() 에러 발생", err);
         })
     },
 
     delete(req, res){
         return sequelize
-        .query('DELETE FROM notices WHERE n_id = ?',
-        { replacements : [parseInt(req.query.notice_num)], type : sequelize.QueryTypes.DELETE } )
+        .query('DELETE FROM notice_uploadfiles WHERE filepath IN (?, ?, ?, ?, ?)',
+        { replacements : [req.body.change_file[0], req.body.change_file[1], req.body.change_file[2], req.body.change_file[3], req.body.change_file[4] ], type : sequelize.QueryTypes.DELETE } )
         .catch(err => {
             console.log("noticeController delete() 에러 발생", err);
         })
+    },
+
+    deleteOne(req, res){
+        return sequelize
+        .query('DELETE FROM notice_uploadfiles WHERE filepath = ?',
+        { replacements : [req.body.change_file ], type : sequelize.QueryTypes.DELETE } )
+        .catch(err => {
+            console.log("noticeController delete() 에러 발생", err);
+        })
+    },
+
+    fileupdatecreate(req, res, upload_cnt){
+        return sequelize
+        .query(
+            'INSERT INTO notice_uploadfiles(n_id, filepath) VALUES(?, ?)',
+            { replacements: [ req.query.notice_num, req.files[upload_cnt].filename ], type : sequelize.query.INSERT }
+        )
+        .catch(err => {
+            console.log("filecreate" + upload_cnt + "() 에러 발생!!!! ", err);
+        });
     },
 
     select(req, res){
