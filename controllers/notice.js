@@ -132,5 +132,6 @@ module.exports = {
         .catch(err => {
             console.log("noticeController select() 에러 발생", err);
         })
-    }
+    },
+
 }

@@ -18,46 +18,34 @@ var createNotice = function(req) {
     if(!(title === "") && !(content === "")){
         console.log("createNotice(update) 실행");
 
-        for(var lbl_mod = 0; lbl_mod < modify_file.length; lbl_mod++){
-            // 기존 파일 중에 어떤 첨부파일이 변화하였는지 확인할 수 있음.
-            modify_file_change[lbl_mod] = { filepath : modify_file[lbl_mod].filepath };
-            for(var lbl_chk = 0; lbl_chk < inputfile.length; lbl_chk++){
-                if(modify_file[lbl_mod].filepath === inputfile[lbl_chk].label.textContent){
-                    modify_file_change[lbl_mod].delete = true
-                 }else{
-                     null
-                 };
-            }
-            if(modify_file_change[lbl_mod].delete === undefined){
-                change_file.appendChild(file_change_text[file_change_cnt++] = u.createTag("input", {
-                    attribute : [ "type", "name", "value" ],
-                    value : [ "text", "change_file", modify_file_change[lbl_mod].filepath ]
-                }, null));
-                file_change_bool = true;
-            }else{
-                change_file.appendChild(file_change_text[file_change_cnt++] = u.createTag("input", {
-                    attribute : [ "type", "name" ],
-                    value : [ "text", "change_file" ]
-                }, null));
-            }
-            console.log(modify_file_change[lbl_mod].delete);
+        //
+        let formData = new FormData();
+        formData.append("title",u.qu("#title").value);
+        formData.append("content",u.qu("#content").value);
+        for(let i = 0; i < inputfile.length; i++){
+            formData.append('userfile', inputfile[i].input.files[0]);
         }
-    
-        // for(var lbl_mod = 0; lbl_mod < modify_file.length; lbl_mod++){
-        //     // 변하지 않은것은 false, 변한것은 (삭제를 위해서) 변화기전 파일명을 가지고있음.
-        //     modify_file[lbl_mod].filepath === inputfile[lbl_mod].label.textContent ? modify_file_change[lbl_mod] = false : modify_file_change[lbl_mod] = modify_file[lbl_mod].filepath;
-        // }
-
-        // for(var insert_input = modify_file.length; insert_input < inputfile.length; insert_input++){
-        //     // 파일이 선택된것은 (추가적인 업로드를 위해) true, 파일 선택이 되지 않은것은 undefined
-        //     inputfile[insert_input].input.value !== "" ? modify_file_change[insert_input] = true : modify_file_change[insert_input] = null;
-        // }
+        let contenttype = { headers : { "content-type" : "multipart/form-data" } };
+        //
+        for(let i = 0; i < modify_file.length; i++){
+            for(let j = 0; j < inputfile.length; j++){
+                if(modify_file[i].filepath == inputfile[j].label.textContent)
+                    break;
+                else if(j + 1 === inputfile.length)
+                    formData.append('delete', modify_file[i].filepath);
+            }
+        }
 
         console.log("modify_file_change");
         console.log(modify_file_change);
 
         if(req === "update"){
-            u.form(u.qu('#form'), '/notice/fileupdate' + location.search +'&change=' + file_change_bool + "&now=" + getTimeStamp(), 'post');
+            axios.post('/notice/fileupdate' + location.search + "&now=" + getTimeStamp(), formData, contenttype)
+            .then(res => {
+                console.log(res.data.console);
+            });
+            // u.axios('/notice/fileupdate' + location.search +'&change=' + file_change_bool + "&now=" + getTimeStamp(), { change : modify_file_change, form : u.qu("#form") }, "post");
+            // u.form(u.qu('#form'), '/notice/fileupdate' + location.search +'&change=' + file_change_bool + "&now=" + getTimeStamp(), 'post');
         }
     }else{
       alert("다 입력");

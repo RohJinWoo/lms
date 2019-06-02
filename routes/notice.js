@@ -4,13 +4,19 @@ var noticeController = require('../controllers').notice;
 var multer = require('multer');
 var fs = require('fs');
 
+var testController = require('../controllers').test;
+
 var storage = multer.diskStorage({
     // 저장 경로(해당 경로에 디렉토리가 존재해야지만 가능)
     destination: (req, file, cb) => {
+        console.log("destination req :: ", req.body);
+        console.log("destination file :: ", file);
         cb(null, 'uploads/notices');
     },
     // 파일 이름
     filename: (req, file, cb) => {
+        console.log("filename req :: ", req.body);
+        console.log("filename file :: ", file);
         cb(null, Date.now() + "-" + file.originalname);
     }
 });
@@ -114,39 +120,45 @@ router.post('/fileupdate', (req, res) => {
         if(err){
             console.log("에러",err);
             res.send(err);
-        }else if(req.query.change !== "false"){
-            if(typeof(req.body.change_file) !== "string"){
-                for(var delete_cnt = 0; delete_cnt < req.body.change_file.length; delete_cnt++){
-                    fs.unlink(filepath + "/" + req.body.change_file[delete_cnt], (err) => {
-                        if(err){
-                            res.send(filepath + "/" + req.body.change_file[delete_cnt], " => 업로드 디렉토리 내의 파일 삭제 도중 에러 발생!\n", err);
-                        }
-                    });
-                }
-                noticeController.delete(req, res);
-            }else{
-                fs.unlink(filepath + "/" + req.body.change_file, (err) => {
-                    if(err){
-                        res.send(filepath + "/" + req.body.change_file, " => 업로드 디렉토리 내의 파일 삭제 도중 에러 발생!\n", err);
-                    }
-                });
-                noticeController.deleteOne(req, res);
-            }
-        }
-        
-        for(var upload_cnt = 0; upload_cnt < req.files.length; upload_cnt++){
-            noticeController.fileupdatecreate(req, res, upload_cnt);
-        }
+        }else{
+            console.log("/fileupdate req.body : ", req.body);
+            // console.log("/fileupdate req.file : ", req.files);
+            res.send( { console : req.body } );}
 
-        noticeController.update(req, res)
-        .then(result => {
-            console.log("notice/update : ", result);
-            if(result[1] === 1){
-                res.redirect('/notice?notice_num=' + req.query.notice_num);
-            }else{
-                res.send("공지사항 변경도중 에러가 발생하였습니다!");
-            }
-        });
+
+        // }else if(req.query.change !== "false"){
+        //     if(typeof(req.body.change_file) !== "string"){
+        //         for(var delete_cnt = 0; delete_cnt < req.body.change_file.length; delete_cnt++){
+        //             fs.unlink(filepath + "/" + req.body.change_file[delete_cnt], (err) => {
+        //                 if(err){
+        //                     res.send(filepath + "/" + req.body.change_file[delete_cnt], " => 업로드 디렉토리 내의 파일 삭제 도중 에러 발생!\n", err);
+        //                 }
+        //             });
+        //         }
+        //         noticeController.delete(req, res);
+        //     }else{
+        //         fs.unlink(filepath + "/" + req.body.change_file, (err) => {
+        //             if(err){
+        //                 res.send(filepath + "/" + req.body.change_file, " => 업로드 디렉토리 내의 파일 삭제 도중 에러 발생!\n", err);
+        //             }
+        //         });
+        //         noticeController.deleteOne(req, res);
+        //     }
+        // }
+        
+        // for(var upload_cnt = 0; upload_cnt < req.files.length; upload_cnt++){
+        //     noticeController.fileupdatecreate(req, res, upload_cnt);
+        // }
+
+        // noticeController.update(req, res)
+        // .then(result => {
+        //     console.log("notice/update : ", result);
+        //     if(result[1] === 1){
+        //         res.redirect('/notice?notice_num=' + req.query.notice_num);
+        //     }else{
+        //         res.send("공지사항 변경도중 에러가 발생하였습니다!");
+        //     }
+        // });
     });
 });
 
@@ -181,4 +193,20 @@ router.post('/file_search', (req, res) => {
         res.status(400).send(err);
     })
 });
+
+router.get('/test', (req, res) => {
+    testController.transaction(req, res);
+    // Promise.all([testController.insert(req,res), testController.reject(req,res)])
+    // .then((value) => {
+    //     console.log("정상실행");
+    //     console.log(value);
+    //     res.send(value);
+    // })
+    // .catch(err => {
+    //     console.log("에러발생");
+    //     console.log(err);
+    //     res.send(err);
+    // })
+})
+
 module.exports = router;

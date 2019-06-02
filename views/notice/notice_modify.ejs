@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="../stylesheets/uploadfile_input.css"></link>
   </head>
   <body>
-      <form id="form" onsubmit="return subclose()" enctype="multipart/form-data">
+      <form id="form" onsubmit="return subclose()">
           <h1>공지사항</h1>
           <div>
             <input type="text" name="title" id="title" placeholder="제목" value="<%= obj !== undefined ? obj.title : '' %>">
