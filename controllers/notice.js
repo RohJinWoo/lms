@@ -43,14 +43,36 @@ module.exports = {
         });
     },
 
-    filecreate(req, res, upload_cnt){
+    filecreate(req, res, t){
+        let insert_query = 'INSERT INTO notice_uploadfiles(n_id, filepath) VALUES', insert_replacements =[];
+
+        for(let i = 0; i < req.files.length; i++){
+            insert_query = insert_query + "(?, ?),";
+            insert_replacements.push(req.query.notice_num);
+            insert_replacements.push(req.files[i].filename);
+        }
+
+
         return sequelize
         .query(
-            'INSERT INTO notice_uploadfiles(n_id, filepath) VALUES((SELECT n_id FROM notices ORDER BY n_id DESC LIMIT 0, 1), ?)',
-            { replacements: [ req.files[upload_cnt].filename ], type : sequelize.query.INSERT }
+            insert_query.slice(0, insert_query.length - 1),
+            { replacements: insert_replacements, type : sequelize.query.INSERT }, { transaction : t }
         )
+        .then(result => {
+            if(t){
+                console.log("filecreate() 트랜잭션 완료");
+                return { result : true, transaction : t };
+            }
+            else{
+                return result;
+            }
+        })
         .catch(err => {
             console.log("filecreate" + upload_cnt + "() 에러 발생!!!! ", err);
+
+            if(t){
+                return { result : false, transaction : t };
+            }
         });
     },
     
@@ -98,8 +120,8 @@ module.exports = {
 
     delete(req, res){
         return sequelize
-        .query('DELETE FROM notice_uploadfiles WHERE filepath IN (?, ?, ?, ?, ?)',
-        { replacements : [req.body.change_file[0], req.body.change_file[1], req.body.change_file[2], req.body.change_file[3], req.body.change_file[4] ], type : sequelize.QueryTypes.DELETE } )
+        .query('DELETE FROM notice_uploadfiles WHERE n_id = ?',
+        { replacements : [ req.query.notice_num, req.query.notice_num ], type : sequelize.QueryTypes.DELETE } )
         .catch(err => {
             console.log("noticeController delete() 에러 발생", err);
         })
@@ -134,4 +156,41 @@ module.exports = {
         })
     },
 
+    fileupdate_commit_rollback(req, res){
+        // 쿼리문을 프론트에서 어느정도 가꿔서 서버로 보내준다.
+
+        // delete sql
+        let delete_query;
+        if(req.body.delete.length > 2){
+            delete_query = "DELETE FROM notice_uploadfiles WHERE filepath IN " + req.body.delete;
+        }else{
+            delete_query = "DELETE FROM notice_uploadfiles WHERE false";
+        }
+
+        return sequelize.transaction().then((t) => {
+            return sequelize
+            // delete는 쿼리 조건에 or로 해결
+            .query(delete_query,
+            { type : sequelize.QueryTypes.DELETE }, { transaction : t })
+            .then(() => {
+                return sequelize
+                .query("UPDATE notices SET n_title = ?, n_content = ? WHERE n_id = ?",
+                { replacements : [ req.body.title, req.body.content, req.query.notice_num ], type : sequelize.QueryTypes.UPDATE }, { transaction : t })
+                .then((result) => {
+                    console.log("fileupdate_commit_rollback() 실행 완료 : ", result);
+                    if(req.files.length > 0){
+                        this.filecreate(req, res, t)
+                        .then(result => {
+                            return result;
+                        });
+                    }
+                    return { result : true, transaction : t };
+                })
+                .catch((err) => {
+                    console.log("fileupdate_commit_rollback() 실행 오류 : ", err);
+                    return { result : false, transaction : t };
+                })
+            })
+        })
+    }
 }

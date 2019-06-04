@@ -5,8 +5,8 @@ const cource = require('./cource');
 const user = require('./user');
 const email = require('./email');
 const admin = require('./admin');
-const test = require('./test');
+const tests = require('./tests');
 
 module.exports = {
-    notice, student, cource, professor, user, email, admin, test
+    notice, student, cource, professor, user, email, admin, tests
 };

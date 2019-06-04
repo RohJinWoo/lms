@@ -9,7 +9,7 @@
     <body>
         <form id="form" onsubmit="return subclose()">
             <h1>제목 : <span id="title" name="title"><%= obj !== undefined ? obj.title : '' %></span></h1>
-            날짜 : <span id = "date" name="date"><%= obj.createdAt !== undefined ? obj.createdAt : '' %></span>
+            날짜 : <span id = "date" name="date"><%= obj.updatedAt !== undefined ? obj.updatedAt : '' %></span>
             <div>
                 <p>내용 : <span id="content" name="content"><%= obj.content !== undefined ? obj.content : '내용 없음' %></span></p>
             </div>
