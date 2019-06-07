@@ -14,6 +14,9 @@ const u = {
   qu: (str) => {  //노드 선택
     return document.querySelector(str);
   },
+  names: (str) => { // name으로 여러개 선택
+    return document.getElementsByName(str);
+  },
   link: (str) => {  //link 이동
     location.href = str;
   },

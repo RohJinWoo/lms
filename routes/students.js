@@ -89,12 +89,13 @@ router.get('/notice', (req, res) => {
   if(req.query.notice_num === undefined){
     res.render('std/notice', { obj : { title : '공지사항', nowpage : 1 } } );
   }else{
-    noticeController.findOne(req, res)
+    console.log("ㄹㅇㄴ라ㅓㅇㄴ러ㅣㅏ");
+    Promise.all([noticeController.findOne(req, res), noticeController.filefindOne(req, res)])
     .then(result => {
         console.log(req.query);
-        if(result[0] !== undefined){
-            var obj = { id : result[0].n_id, title : result[0].n_title, content : result[0].n_content, createdAt : result[0].createdAt };
-            console.log("result :::: ",result[0]);
+        if(result[0][0] !== undefined){
+          var obj = { id : result[0][0].n_id, title : result[0][0].n_title, content : result[0][0].n_content, filepath : result[1], updatedAt : result[0][0].updatedAt };
+          console.log("result :::: ",result[0]);
             res.render("std/notice_board", { obj } );
         }else{
             res.redirect('/std/notice');

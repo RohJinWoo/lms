@@ -2,10 +2,11 @@
 <html>
   <head>
     <title><%= obj !== undefined ? obj.title : '' %></title>
+    <link rel="stylesheet" href="stylesheets/style.css">
   </head>
-  <body>
-    <form id="form">
-      <h1><%= obj !== undefined ? obj.title : '' %></h1>
+  <body class="index-bg">
+    <form id="form" class="form-box">
+      <h1 class="form-title"><%= obj.title %></h1>
       <div>
         <input type="password" name="password" id="password" placeholder="신규 비밀번호">
       </div>

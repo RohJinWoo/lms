@@ -119,11 +119,35 @@ module.exports = {
     },
 
     delete(req, res){
-        return sequelize
-        .query('DELETE FROM notice_uploadfiles WHERE n_id = ?',
-        { replacements : [ req.query.notice_num, req.query.notice_num ], type : sequelize.QueryTypes.DELETE } )
-        .catch(err => {
-            console.log("noticeController delete() 에러 발생", err);
+
+
+        return sequelize.transaction().then((t) => {
+            return sequelize
+            .query('DELETE FROM notice_uploadfiles WHERE n_id = ?',
+            { replacements : [ req.query.notice_num, req.query.notice_num ], type : sequelize.QueryTypes.DELETE }, { transaction : t } )
+            .then(() => {
+                return sequelize
+                .query('DELETE FROM notices WHERE n_id = ?',
+                {replacements : [ req.query.notice_num ], type : sequelize.QueryTypes.DELETE }, { transaction : t } )
+                .then(() => {
+                    return sequelize
+                    .query("SELECT * FROM notices n, notice_uploadfiles nu WHERE n.n_id = nu.n_id AND n.n_id = ?",
+                    { replacements : [ req.query.notice_num ], type : sequelize.QueryTypes.SELECT }, { transaction : t} )
+                    .then(result => {
+                        if(result.length){
+                            // 삭제 안됨
+                            return { result : false, transaction : t }
+                        }else{
+                            // 완벽 삭제
+                            return { result : true, transaction : t }
+                        }
+                    })
+                    .catch(err => {
+                        console.log("delete() 트랜잭션 오류 : ", err);
+                        return { result : false, transaction : t }
+                    })
+                })
+            })
         })
     },
 

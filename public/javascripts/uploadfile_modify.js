@@ -49,7 +49,7 @@ var createNotice = function(req) {
         console.log(delete_query);
 
         if(req === "update"){
-            axios.post('/notice/fileupdate' + location.search + "&now=" + getTimeStamp(), formData, contenttype)
+            axios.put('/notice/fileupdate' + location.search + "&now=" + getTimeStamp(), formData, contenttype)
             .then(res => {
                 console.log(res.data.console);
                 if(res.data.err){

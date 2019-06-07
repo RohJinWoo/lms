@@ -2,14 +2,15 @@
 <html>
   <head>
       <title><%= obj.title !== undefined ? obj.title : '' %></title>
+      <link rel="stylesheet" href="stylesheets/style.css">
   </head>
-  <body>
-    <form id="form">
-      <h1><%= obj !== undefined ? obj.title : '' %></h1>
-      <div>
-        <input type="text" name="u_id" id="u_id" placeholder="ID">
-        <span>
-          <button type="button" onclick="redundancy_check()" name="u_id_btn">ID 중복 검사</button>
+  <body class="index-bg">
+    <form id="form" class="form-box">
+      <h1 class="form-title"><%= obj.title %></h1>
+      <div class="input-group">
+        <input type="text" name="u_id" id="u_id" placeholder="ID" class="group-input">
+        <span class="group-span">
+          <button type="button" onclick="redundancy_check()" name="u_id_btn" class="group-button">ID 중복 검사</button>
         </span>
       </div>
       <div>

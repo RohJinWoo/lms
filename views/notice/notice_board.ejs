@@ -17,7 +17,7 @@
                 <p>첨부 파일 : 
                     <% if(obj.filepath.length !== 0) {
                         for(var i = 0; i < obj.filepath.length; i++) { %>
-                            <button type="button" onclick="download([<%=obj.id%> , <%= i %>])"><%= obj.filepath[i].filepath %></button>
+                            <button type="button" name="filedown" onclick="download([<%=obj.id%> , <%= i %>])"><%= obj.filepath[i].filepath %></button>
                         <%  }
                     } else { %>
                         없음

@@ -2,17 +2,18 @@
 <html>
   <head>
     <title><%= obj !== undefined ? obj.title : '' %></title>
+    <link rel="stylesheet" href="stylesheets/style.css">
   </head>
-  <body>
-      <form id="form">
-          <h1><%= obj !== undefined ? obj.title : '' %></h1>
+  <body class="index-bg">
+    <form id="form" class="form-box">
+      <h1 class="form-title"><%= obj.title %></h1>
           <div>
             <input type="text" name="u_name" id="u_name" placeholder="이름">
           </div>
-          <div>
-            <input type="email" name="email" id="email" placeholder="이메일">
-            <span>
-              <button type="button" onclick="send_email('find_id')" name="u_email_btn">이메일 인증</button>
+          <div class="input-group">
+            <input type="email" name="email" id="email" placeholder="이메일" class="group-input">
+            <span class="group-span">
+              <button type="button" onclick="send_email('find_id')" name="u_email_btn" class="group-button">이메일 인증</button>
             </span>
           </div>
           <div>

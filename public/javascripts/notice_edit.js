@@ -93,13 +93,10 @@ var inputfile_change = function(inputfile_num){
       
       inputfile[remove_cnt].label = inputfile[remove_cnt + 1].label;
       u.updateAttribute(inputfile[remove_cnt].label, "for", "userfile" + remove_cnt);
-
-      // modify_file.length - 1 > remove_cnt ? modify_file[remove_cnt] = modify_file[remove_cnt + 1] : null;
-      // modify_file.length - 1 == remove_cnt && modify_file.length > inputfile_num ? delete_file.push(modify_file.pop()) : null;
     }
     inputfile.pop();
     inputfile_cnt--;
-    if(inputfile_cnt === 4 && inputfile[3].input.value !== ""){
+    if(inputfile_cnt === 4 && inputfile[3].label.textContent !== ""){
       createInputFile();
     }
   }

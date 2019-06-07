@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
         Promise.all([noticeController.findOne(req, res), noticeController.filefindOne(req, res)])
         .then(result => {
             console.log("결과",result,"end");
-            if(result[0] !== undefined){
+            if(result[0][0] !== undefined){
                 var obj = { id : result[0][0].n_id, title : result[0][0].n_title, content : result[0][0].n_content, filepath : result[1], updatedAt : result[0][0].updatedAt };
                 console.log("result :::: ",result[0]);
                 if(req.query.m === 'write'){
@@ -118,7 +118,7 @@ router.post('/create', (req, res) => {
     });
 });
 
-router.post('/fileupdate', (req, res) => {
+router.put('/fileupdate', (req, res) => {
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 
     noticeupload.array("userfile", 5)(req, res, (err) => {
@@ -156,57 +156,67 @@ router.post('/fileupdate', (req, res) => {
 
             
             // 3. fs.unlink()로 파일 삭제
-            let delete_uploadfile = (deletefile) => {
-                if(typeof(deletefile) === 'string'){
-                    fs.unlink(filepath + "/" + deletefile, (err) => {
-                        if(err){
-                            console.log(deletefile + " 삭제도중 에러 발생");
-                        }else{
-                            console.log("성공적으로 삭제 완료. 파일명 : ", deletefile);
-                        }
-                    });
-                }else{
-                    for(let i = 0; i < deletefile.length; i++){
-                        fs.unlink(filepath + "/" + deletefile[i], (err) => {
-                            if(err){
-                                console.log(deletefile[i] + " 삭제도중 에러 발생");
-                            }else{
-                                console.log("성공적으로 삭제 완료. 파일명 : ", deletefile[i]);
-                            }
-                        });
-                    }
-                }
-            },
-            delete_rollbackfile = (deletefile) => {
-                for(let i = 0; i < deletefile.length; i++){
-                    fs.unlink(filepath + "/" + deletefile[i].filename, (err) => {
-                        if(err){
-                            console.log(deletefile[i].filename + " 삭제도중 에러 발생");
-                        }else{
-                            console.log("성공적으로 삭제 완료. 파일명 : ", deletefile[i].filename);
-                        }
-                    });
-                }
-            }
+            
 
         }
     });
 });
 
+//
+let delete_uploadfile = (deletefile) => {
+    if(typeof(deletefile) === 'string'){
+        fs.unlink(filepath + "/" + deletefile, (err) => {
+            if(err){
+                console.log(deletefile + " 삭제도중 에러 발생");
+            }else{
+                console.log("성공적으로 삭제 완료. 파일명 : ", deletefile);
+            }
+        });
+    }else{
+        for(let i = 0; i < deletefile.length; i++){
+            fs.unlink(filepath + "/" + deletefile[i], (err) => {
+                if(err){
+                    console.log(deletefile[i] + " 삭제도중 에러 발생");
+                }else{
+                    console.log("성공적으로 삭제 완료. 파일명 : ", deletefile[i]);
+                }
+            });
+        }
+    }
+},
+delete_rollbackfile = (deletefile) => {
+    for(let i = 0; i < deletefile.length; i++){
+        fs.unlink(filepath + "/" + deletefile[i].filename, (err) => {
+            if(err){
+                console.log(deletefile[i].filename + " 삭제도중 에러 발생");
+            }else{
+                console.log("성공적으로 삭제 완료. 파일명 : ", deletefile[i].filename);
+            }
+        });
+    }
+}
+//
+
 router.delete('/delete', (req, res) => {
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-    console.log("/delete");
+    
     noticeController.delete(req, res)
-    .then(() => {
-        noticeController.select(req, res)
-        .then(result => {
-            console.log(result);
-            if(result[0].count === 0){
-                res.send( { content : "공지사항 삭제가 성공적으로 완료되었습니다!", link : "/notice" } );
-            }else{
-                res.send( { content : "공지사항 삭제가 정상적으로 이루어지지 않았습니다!", link : "/notice?notice_num=" + req.query.notice_num } );
-            }
-        })
+    .then((result) => {
+        if(result.result){
+            console.log("/delete 트랜잭션 커밋");
+            result.transaction.commit();
+            req.body.delete_file.length > 0 ? delete_uploadfile(req.body.delete_file) : null;
+            res.send({ content : "삭제가 완료되었습니다.", link : "/notice"});
+        }else{
+            console.log("/delete 트랜잭션 롤백");
+            result.transaction.rollback();
+            res.send({ content : "삭제를 완수하지 못했습니다.", link : "/notice?notice_num=" + req.query.notice_num});
+        }
+    })
+    .catch(err => {
+        console.log("에러 발생");
+        console.log(err);
+        res.send( { console : err } );
     })
 });
 
