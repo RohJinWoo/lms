@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../stylesheets/uploadfile_input.css">
   </head>
   <body>
-    <h2 class="mb-5"><a href="/std/main" class="backlink">&lt;&nbsp;</a><%= obj !== undefined ? obj.title : '' %></h2>
+    <h2 class="mb-5"><a href="/prof/main" class="backlink">&lt;&nbsp;</a><%= obj !== undefined ? obj.title : '' %></h2>
     <form id="notice">
       <div class="board" id ="board"></div>
       <div class="pagination"></div>
@@ -39,6 +39,9 @@
           <button class="group-button" id="search">검색</button>
         </span>
       </div>
+      <div class="notice_edit">
+        <a href="./notice/edit">글쓰기</a>
+      </div>
       <div id="next_search" class="button-group" style="text-align: center"></div>
     </form>
   </body>
@@ -55,6 +58,5 @@
     
     <script src="../javascripts/users/notice_test.js"></script>
     <script src="../javascripts/notice_search.js"></script>
-  
   
 </html>

@@ -23,6 +23,9 @@ const u = {
   node: (str) => {  //string -> 노드 생성
     return document.createRange().createContextualFragment(str).firstChild;
   },
+  nodeAll: (str) => {  //string -> 노드 생성
+    return document.createRange().createContextualFragment(str);
+  },
   childAllRemove: function(str) { //해당 노드의 자식 노드들 전부 삭제
     var child = this.qu(str); 
     // 이와 같은 경우 처럼 같은 객체 안의 함수를 이용할 때 arrow를 사용하면 안된다.

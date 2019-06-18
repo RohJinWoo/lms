@@ -50,7 +50,7 @@ router.post('/upload', (req, res) => {
             res.send("에러" + err);
         }else{
             console.log(req.file);
-            res.redirect('./list');
+            res.redirect('/');
         }
     });
 });
@@ -66,15 +66,16 @@ router.get('/download', (req, res) => {
 });
 
 router.get('/list', (req, res) => {
-    fs.readdir(filepath, (err, filelist) => {
+    let dir = req.query.dir !== undefined ? req.query.dir : '';
+    fs.readdir(filepath + '/' + dir, (err, filelist) => {
         // console.log(filelist);
         if(err){
             console.log('/list err 발생 : ', err);
-            res.send("에러");
+            res.redirect('./download?download=' + dir);
         }else{
             console.log("get list 성공 실행");
             console.log(filelist);
-            res.render('file/list', { obj : { list : filelist } } );
+            res.render('file/list', { obj : { list : filelist, dir : dir } } );
         }
     });
 });

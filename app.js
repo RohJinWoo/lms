@@ -35,6 +35,7 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules', 'axios', 'dist')));
+app.use('/resume', express.static(path.join(__dirname, 'node_modules', 'startbootstrap-resume')));
 
 app.use('/', indexRouter);
 app.use('/std', studentsRouter);
@@ -62,7 +63,11 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  if(req.path.split('/')[2] === 'images'){
+    res.redirect('/file_sample/images/no_image.jpg');
+  }else{
+    res.render('error');
+  }
 });
 
 //Models

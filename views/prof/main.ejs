@@ -1,57 +1,102 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <head include-ejs="script.ejs">
-      <title><%= obj.title %></title>
-      <link rel='stylesheet' href='/stylesheets/style.css' />
-      <style type="text/css">
-          body > nav, body > section {
-              float: left;
-              height : 200px;
-          }
-          .users{
-              float: left;
-          }
-          nav{
-              background: lightgreen;
-          }
-          header{
-              background: lightblue;
-          }
-          section{
-              background: lightpink;
-          }
-          section > article:nth-child(1){
-              background: lightsalmon;
-          }
-          section > article:nth-child(2){
-              background: lightcoral;
-          }
-          section > article:nth-child(3){
-              background: lightcyan;
-          }
-      </style>
-      <% include ./script %>
-  </head>
-  <body>
-      <nav>
-        <% include ./nav %>
-      </nav>
-      <section>
-        <header>
-            <%= obj.title %>
-        </header>
-        <section>
-            <article>
-                <b>공지사항</b>
-                <div><%= obj.notice[0].n_title %> | <%= obj.notice[0].createdAt %></div>
-                <div><%= obj.notice[1].n_title %> | <%= obj.notice[1].createdAt %></div>
-                <div><%= obj.notice[2].n_title %> | <%= obj.notice[2].createdAt %></div>
-                <div><%= obj.notice[3].n_title %> | <%= obj.notice[3].createdAt %></div>
-            </article>
-            <article>
-            </article>
-        </section>
-      </section>
-  </body>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Resume - Start Bootstrap Theme</title>
+  
+  <link rel="stylesheet" href="../stylesheets/uploadfile_input.css"></link>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../resume/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+  <link href="../resume/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../resume/css/resume.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+      <% include nav %>
+  </nav>
+
+  <div class="container-fluid p-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="notices">
+      <div class="w-100">
+        <h2 class="mb-5">Noitces</h2>
+
+        <% if(obj.notice.length > 0){
+            for(let i = 0; i < obj.notice.length; i++){ %>
+
+        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5" name="notice_post" style="cursor:pointer" >
+          <div class="resume-content">
+            <h3 class="mb-0"><%= obj.notice[i].n_title %></h3>
+            <div class="subheading mb-3" name="notice_num"><%= obj.notice[i].n_id %></div>
+            <p><%- obj.notice[i].n_content %></p>
+          </div>
+          <div class="resume-date text-md-right">
+            <span class="text-primary"><%= obj.notice[i].createdAt %></span>
+            <p><img src="../images/upload_file.png" class="upload_file_img">+<%= (obj.notice[i].file_cnt === null) ? 0 : obj.notice[i].file_cnt %></p>
+          </div>
+        </div>
+
+        <%  } %>
+        <div class="text-md-right">
+            <h5><a href="./notice">더 보기</a></h5>
+        </div>
+        <%}else{ %>
+
+        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+          <div class="resume-content">
+            <h3 class="mb-0">공지사항이 없습니다.</h3>
+            <div class="subheading mb-3">Intelitec Solutions</div>
+            <p>내용없음</p>
+          </div>
+          <div class="resume-date text-md-right">
+            <span class="text-primary">XXX</span>
+          </div>
+        </div>
+
+        <% } %>
+      </div>
+
+    </section>
+    
+    <hr class="m-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="uploads">
+      <div class="w-100">
+        <h2 class="mb-5">FileUploads &amp; DirectoryFind</h2>
+        <% include ../file/upload %>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../resume/vendor/jquery/jquery.min.js"></script>
+  <script src="../resume/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="../resume/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="../resume/js/resume.min.js"></script>
+  
+  <script src="../javascripts/users/notice_test.js"></script>
+
+</body>
+
 </html>

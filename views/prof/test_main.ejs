@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <head include-ejs="script.ejs">
+      <title><%= obj.title %></title>
+      <link rel='stylesheet' href='/stylesheets/style.css' />
+      <style type="text/css">
+          body > nav, body > section {
+              float: left;
+              height : 200px;
+          }
+          .users{
+              float: left;
+          }
+          nav{
+              background: lightgreen;
+          }
+          header{
+              background: lightblue;
+          }
+          section{
+              background: lightpink;
+          }
+          section > article:nth-child(1){
+              background: lightsalmon;
+          }
+          section > article:nth-child(2){
+              background: lightcoral;
+          }
+          section > article:nth-child(3){
+              background: lightcyan;
+          }
+      </style>
+      <% include ./script %>
+  </head>
+  <body>
+      <nav>
+        <% include ./nav %>
+      </nav>
+      <section>
+        <header>
+            <%= obj.title %>
+        </header>
+        <section>
+            <article>
+                <b>공지사항</b>
+                <div><%= obj.notice[0].n_title %> | <%= obj.notice[0].createdAt %></div>
+                <div><%= obj.notice[1].n_title %> | <%= obj.notice[1].createdAt %></div>
+                <div><%= obj.notice[2].n_title %> | <%= obj.notice[2].createdAt %></div>
+                <div><%= obj.notice[3].n_title %> | <%= obj.notice[3].createdAt %></div>
+            </article>
+            <article>
+            </article>
+        </section>
+      </section>
+  </body>
+</html>

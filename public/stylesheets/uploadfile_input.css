@@ -1,13 +1,14 @@
-.filebox label {
+.filebox label, .filebox button, .input-group button, .button-group button {
+    margin: auto;
     display: inline-block;
     padding: .5em .75em;
     color: #fff;
     font-size: inherit;
     line-height: normal;
     vertical-align: middle;
-    background-color: #5cb85c;
+    background-color: #0099ff!important;
     cursor: pointer;
-    border: 1px solid #4cae4c;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: .25em;
     -webkit-transition: background-color 0.2s;
     transition: background-color 0.2s;
@@ -32,6 +33,61 @@
     border: 0;
 }
 
+.filebox input[type="text"] {
+    margin: auto;
+    display: inline-block;
+    padding: .5em .75em;
+    color: #fff;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #007bff!important;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: .25em;
+    -webkit-transition: background-color 0.2s;
+    transition: background-color 0.2s;
+}
+
 #change_file {
     display: none;
+}
+
+.upload_file_img {
+    width: 20px;
+    height: 20px;
+}
+
+div.pagination_div > div span {
+    margin: 2px;
+    font-size: 20px;
+}
+
+div.pagination_div > div span.pagination_nowpage {
+    color: blue;
+    text-decoration: underline;
+}
+
+div.pagination_div > div span:hover,
+h2 > .backlink:hover {
+    color: #007bff;
+}
+
+body {
+    padding-right: 5rem;
+    padding-top: 2rem;
+    padding-left: 5rem;
+    padding-bottom: 2rem;
+}
+
+button.down_button {
+    margin-bottom: 5px;
+}
+
+div.notice_edit {
+    text-align: right;
+}
+
+.notice_input {
+    width: 100%;
 }

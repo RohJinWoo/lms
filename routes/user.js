@@ -12,7 +12,8 @@ router.post('/login_std',  (req, res) => {
     .then(result => {
         console.log("login_std result : ",result);
         if(result[0] !== undefined){
-            req.session.std_id = result[0];
+            req.session.std_id = result[0].pid;
+            req.session.std_name = result[0].l_name;
             res.send( { link : '../std/main' } );
         }else{
             res.send( { content : "요청하신 회원 정보가 일치하지 않습니다. (학습자 로그인)" } );
@@ -29,7 +30,8 @@ router.post('/login_prof', (req, res) => {
     .then(result => {
         console.log("login_prof result : ",result);
         if(result[0] !== undefined){
-            req.session.prof_id = result[0];
+            req.session.prof_id = result[0].pid;
+            req.session.prof_name = result[0].p_name;
             res.send( { link : '../prof/main' } );
         }else{
             res.send( { content : "요청하신 회원 정보가 일치하지 않습니다. (교육자 로그인)" } );

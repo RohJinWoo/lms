@@ -4,15 +4,18 @@
     <title>파일 업로드</title>
   </head>
   <body>
+    <div class="filebox">
       <form id="form" enctype="multipart/form-data">
-          <input type="file" name="userfile" id="userfile">
-          <input type="text" name="u" id="u">
+          <input type="file" name="userfile" id="userfile" onchange="select_file()">
+          <label for="userfile">업로드할 파일을 선택해주세요.</label>
           <button type="button" onclick="upload()">제출</button>
       </form>
-      <div class="list" id="list"></div>
+    </div>
+    <hr>
+    <div class="list filebox" id="list"></div>
   </body>
-  <script src="/javascripts/util.js"></script>
-  <script src="/javascripts/file/upload.js"></script>
-  <script src="/js/axios.min.js"></script>
-  <script src="/javascripts/file/search_dir.js"></script>
+  <script src="../javascripts/util.js"></script>
+  <script src="../javascripts/file/upload.js"></script>
+  <script src="../js/axios.min.js"></script>
+  <script src="../javascripts/file/search_dir.js"></script>
 </html>

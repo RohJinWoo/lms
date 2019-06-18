@@ -55,6 +55,11 @@ var createNotice = function(req) {
                 if(res.data.err){
                     alert(res.data.err);
                 }
+                
+                // 창을 닫거나 페이지 이동시 나타나는 이벤트를 잠시 지우고 진행.
+                window.removeEventListener('beforeunload', anwser_page);
+                window.removeEventListener('unload', img_delete);
+
                 location.href = res.data.link;
             });
 

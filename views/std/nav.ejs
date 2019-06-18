@@ -1,23 +1,37 @@
-<ul>
-    <li>
-        <a href='./main'>메인</a><br/>
-    </li>
-    <li>
-        <a href='./sign-up-class'>수강신청</a><br/>
-    </li>
-    <li>
-        <a href='./check-class'>수강조회</a><br/>
-    </li>
-    <li>
-        <a href='./exam'>시험보기</a><br/>
-    </li>
-    <li>
-        <a href='./check-grade'>성적조회</a><br/>
-    </li>
-    <li>
-        <a href='./rating-class'>강의평가</a><br/>
-    </li>
-    <li>
-        <a href='../user/logout'>로그아웃</a><br/>
-    </li>
-</ul>
+<a class="navbar-brand js-scroll-trigger" href="#page-top">
+        <span class="d-block d-lg-none">Clarence Taylor</span>
+        <span class="d-none d-lg-block">
+          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="../resume/img/profile.jpg" alt="">
+          <p>[ <%= obj.name !== undefined ? obj.name : '' %> ]님</p>
+        </span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#education">Education</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#notices">Notices</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#uploads">Uploads</a>
+          </li>
+          <li class="nav-item">
+            <hr style="border-color: rgba(255, 255, 255, 0.3)">
+            <a class="nav-link" id="logout" style="cursor: pointer">Log-out</a><br/>
+          </li>
+        </ul>
+      </div>
+  

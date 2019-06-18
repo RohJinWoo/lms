@@ -35,13 +35,37 @@ function leadingZeros(n, digits) {
 let file = u.qu('#userfile');
 
 var createNotice = function(req) {
+
   let title = u.qu('#title').value;
   let content = u.qu('#content').value;
 
   if(!(title === "") && !(content === "")){
     console.log("createNotice 실행");
+
+    let formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    for(let i = 0; i < inputfile.length; i++){
+      formData.append('userfile', inputfile[i].input.files[0]);
+    }
+    let contenttype = { headers : { "content-type" : "multipart/form-data" } };
     if(req === "create"){
-      u.form(u.qu('#form'), '/notice/create?now=' + getTimeStamp(), 'post');
+
+      axios.post('/notice/create?now=' + getTimeStamp(), formData, contenttype)
+      .then(res => {
+          console.log(res.data.link);
+          if(res.data.err){
+              alert(res.data.err);
+          }
+
+          // 창을 닫거나 페이지 이동시 나타나는 이벤트를 잠시 지우고 진행.
+          window.removeEventListener('beforeunload', anwser_page);
+          window.removeEventListener('unload', img_delete);
+
+          location.href = '../notice';
+      });
+
+      // u.form(u.qu('#form'), '/notice/create?now=' + getTimeStamp(), 'post');
       // u.axios('/notice/create', { title : title, content : content, file : file.value, now : getTimeStamp() }, "post" );
     }
   }else{

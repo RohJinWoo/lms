@@ -2,6 +2,7 @@
 <html>
   <head>
     <title><%= obj !== undefined ? obj.title : '' %></title>
+    <link rel="stylesheet" href="../stylesheets/uploadfile_input.css">
   </head>
   <body>
     <form id="notice">
@@ -10,11 +11,7 @@
     </form>
     <form id="form" onsubmit="return subclose();">
       <h1><%= obj !== undefined ? obj.title : '' %></h1>
-      <div>
-        <input type="text" name="nowpage" id="nowpage" value="<%= obj.nowpage %>">
-      </div>
-      <div>
-        <button type="button" onclick="pagination()">페이지 이동</button>
+      <div id="notice_pagination" class="pagination_div">
       </div>
     </form>
   </body>

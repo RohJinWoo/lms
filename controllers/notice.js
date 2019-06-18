@@ -8,7 +8,7 @@ module.exports = {
         console.log('공지사항을 DB로부터 값을 가져와야함')
         // return  [ {title : '공지 제목1', date : '2019-02-04'}, {title : '공지 제목2', date : '2019-01-29'} ];
         return sequelize
-        .query('SELECT n_id, n_title, createdAt FROM notices ORDER BY n_id DESC LIMIT 0, 4',
+        .query('SELECT n.n_id, n.n_title, n.n_content, date_format(n.createdAt, "%Y년 %c월 %e일 %T") as createdAt, nu.file_cnt FROM notices n LEFT JOIN (SELECT n_id, count(filepath) as file_cnt FROM notice_uploadfiles GROUP BY n_id) nu ON n.n_id = nu.n_id ORDER BY n.n_id DESC LIMIT 0, 4',
         { type : sequelize.QueryTypes.SELECT } )
         .catch(err => {
             console.log("notice() 에러남", err);
@@ -20,11 +20,6 @@ module.exports = {
         return sequelize
         // .count()
         .query('SELECT count(*) as count FROM Notices', { type: sequelize.QueryTypes.SELECT } )
-        // .then(result => {
-        //     req.body.allnotice = result[0].count;
-        //     console.log('result      : ', result[0].count);
-        //     console.log("req.body.allnotice : ",req.body.allnotice);
-        // })
         .catch(err => {
             console.log("notice count에러 발생!!! ", err);
         })
@@ -79,7 +74,7 @@ module.exports = {
     nowpage(req, res){
         console.log(req.body);
         return sequelize
-        .query('SELECT n.n_id, n.n_title, n.createdAt, nu.file_cnt FROM notices n LEFT JOIN (SELECT n_id, count(filepath) as file_cnt FROM notice_uploadfiles GROUP BY n_id) nu ON n.n_id = nu.n_id ORDER BY n.n_id DESC LIMIT ?, 10'
+        .query('SELECT n.n_id, n.n_title, date_format(n.createdAt, "%Y년 %c월 %e일 %T") as createdAt, nu.file_cnt FROM notices n LEFT JOIN (SELECT n_id, count(filepath) as file_cnt FROM notice_uploadfiles GROUP BY n_id) nu ON n.n_id = nu.n_id ORDER BY n.n_id DESC LIMIT ?, 10'
         , { replacements: [ (req.body.nowpage - 1) * 10 ], type: sequelize.QueryTypes.SELECT } )
         // .then(result => {
         //     console.log(result);
@@ -216,5 +211,32 @@ module.exports = {
                 })
             })
         })
+    },
+
+    search_condtion(req, res){
+        let sql = 'SELECT n.n_id, n.n_title, date_format(n.createdAt, "%Y년 %c월 %e일 %T") as createdAt, nu.file_cnt FROM (SELECT * FROM notices ORDER BY n_id DESC LIMIT ?,100) n'
+        + ' LEFT JOIN (SELECT n_id, count(filepath) as file_cnt FROM notice_uploadfiles GROUP BY n_id) nu ON n.n_id = nu.n_id'
+        + ' WHERE ' + (req.body.search_title !== undefined ? 'n.n_title' : 'n.n_content') + ' LIKE ?'
+        + ' ORDER BY n.n_id DESC LIMIT ?, 10';
+
+        return sequelize
+        .query(sql,
+         { replacements : [ (req.body.search_cnt -1) * 100, "%" + (req.body.search_title !== undefined ? req.body.search_title : req.body.search_content) + "%", (req.body.nowpage - 1) * 10 ], type : sequelize.QueryTypes.SELECT } )
+         .catch(err => {
+             console.log("search_condtion() 에러 발생 : ", err);
+         })
+    },
+
+    search_condtion_count(req, res){
+        let sql = 'SELECT count(n.n_id) as count FROM (SELECT * FROM notices ORDER BY n_id DESC LIMIT ?,100) n'
+        + ' WHERE ' + (req.body.search_title !== undefined ? 'n.n_title' : 'n.n_content') + ' LIKE ?'
+        + ' ORDER BY n.n_id DESC';
+
+        return sequelize
+        .query(sql,
+         { replacements : [ (req.body.search_cnt -1) * 100, "%" + (req.body.search_title !== undefined ? req.body.search_title : req.body.search_content) + "%" ], type : sequelize.QueryTypes.SELECT } )
+         .catch(err => {
+             console.log("search_condtion_count() 에러 발생 : ", err);
+         })
     }
 }

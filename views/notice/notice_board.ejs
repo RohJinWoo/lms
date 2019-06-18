@@ -2,9 +2,6 @@
 <html>
     <head>
         <title><%= obj !== undefined ? obj.title : '' %></title>
-        <script src="../javascripts/util.js"></script>
-        <script src="../js/axios.min.js"></script>
-        <script src="../javascripts/notice.js"></script>
     </head>
     <body>
         <form id="form" onsubmit="return subclose()">
@@ -25,7 +22,10 @@
                 </p>
             </div>
             <button type="button" onclick="mod()">수정</button>
-            <button type="button" onclick="del()">삭제</button>
+            <button type="button" id="delete_notice">삭제</button>
         </form>
     </body>
+        <script src="../javascripts/util.js"></script>
+        <script src="../js/axios.min.js"></script>
+        <script src="../javascripts/notice.js"></script>
 </html>
