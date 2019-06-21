@@ -6,38 +6,18 @@ const professorController = require('../controllers').professor;
 const userController = require('../controllers').user;
 
 router.get('/main', userController.login_access, (req, res) => {
-    console.log("req.session.std_id :: ",req.session.prof_id);
-    noticeController.notice(req, res)
-    .then(result => {
-      console.log(result);
-      res.render('prof/main', { obj : { notice : result, name : req.session.prof_name } } );
-    })
-    .catch( err => {
-      res.status(400).send(err);
-    });
+  console.log("req.session.prof_id :: ",req.session.prof_id);
+  noticeController.notice(req, res)
+  .then(result => {
+    console.log(result);
+    res.render('prof/main', { obj : { notice : result, name : req.session.prof_name } } );
   })
+  .catch( err => {
+    res.status(400).send(err);
+  });
+});
   
-// router.get('/learner-check', userController.login_access, (req, res) => {
-//     Promise.all([studentController.std_check(req, res)])
-//     .then( value => {
-//         res.render('prof/learner_check', { obj : { title : '학습자 조회', students : value[0] } } );
-//     })
-//     .catch( err => {
-//         res.status(400).send(err);
-//     })
-// });
-
-// router.get('/learner-slump-check', userController.login_access, (req, res) => {
-//     Promise.all([studentController.std_slump_check(req, res)])
-//     .then( value => {
-//         res.render('prof/learner_slump_check', { obj : { title : '학습 부진자 조회', students : value[0] } } );
-//     })
-//     .catch( err => {
-//         res.status(400).send(err);
-//     })
-// });
-
-router.get('/notice', /*userController.login_access,*/ (req, res) => {
+router.get('/notice', userController.login_access, (req, res) => {
   if(req.query.notice_num === undefined){
     res.render('prof/notice', { obj : { title : '공지사항', nowpage : 1 } } );
   }else{
@@ -45,7 +25,7 @@ router.get('/notice', /*userController.login_access,*/ (req, res) => {
     .then(result => {
         console.log(req.query);
         if(result[0][0] !== undefined){
-          var obj = { id : result[0][0].n_id, title : result[0][0].n_title, content : result[0][0].n_content, filepath : result[1], updatedAt : result[0][0].updatedAt };
+          var obj = { id : result[0][0].n_id, title : result[0][0].n_title, content : result[0][0].n_content, filepath : result[1], updatedAt : result[0][0].updatedAt, createdAt : result[0][0].createdAt };
           console.log("result :::: ",result[0]);
           if(req.query.m === 'write'){
               res.render("prof/notice_modify", { obj } );
@@ -62,7 +42,7 @@ router.get('/notice', /*userController.login_access,*/ (req, res) => {
   }
 });
 
-router.get('/notice/edit', (req, res) => {
+router.get('/notice/edit', userController.login_access, (req, res) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   res.render('prof/notice_edit', { obj : { } } );
 });

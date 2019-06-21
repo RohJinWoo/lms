@@ -14,13 +14,23 @@
     <link href="../resume/css/resume.min.css" rel="stylesheet">
   
     <link rel="stylesheet" href="../stylesheets/uploadfile_input.css">
+    
+    <script src="../javascripts/noimg.js"></script>
   </head>
   <body>
     <form id="form">
       <div class="resume-item flex-column flex-md-row justify-content-between mb-5" name="notice_post">
         <div class="resume-content">
           <h3 class="mb-0"><%= obj !== undefined ? obj.title : '' %></h3>
-          <div class="subheading mb-3" name="notice_num"><%= obj !== undefined ? obj.id : '' %></div>
+          <div class="d-flex justify-content-between">
+            <div class="subheading mb-3" name="notice_num">
+              <%= obj !== undefined ? obj.id : '' %>
+            </div>
+            <div>
+              작성일 : <%= obj !== undefined ? obj.createdAt : '날짜 식별 불가' %><br>
+              수정일 : <%= obj !== undefined ? obj.updatedAt : '날짜 식별 불가' %>
+            </div>
+          </div>
           <hr>
           <div><%- obj !== undefined ? obj.content : '' %></div>
         </div>

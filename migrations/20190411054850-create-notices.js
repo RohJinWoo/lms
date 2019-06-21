@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
       },
       n_content: {
-        type: Sequelize.STRING(1000),
+        type: Sequelize.STRING(10000),
         allowNull: false,
       },
       n_content: {

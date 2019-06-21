@@ -17,7 +17,8 @@ var sign_up = function(){
     }
 
     // 원래 test가 들어가야함
-    if(!(u_name.value === "") && !(u_id.value === "") && !(password.value === "") && !(email.value === "")){
+    if(test){
+    // if(!(u_name.value === "") && !(u_id.value === "") && !(password.value === "") && !(email.value === "")){
         let form = u.qu('#form');
         u.axios('./email/sign_auth', { u_id : u_id.value, u_name : u_name.value, password : password.value, email : email.value, token : token } , "post" );
     } else {

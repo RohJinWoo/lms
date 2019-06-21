@@ -274,14 +274,6 @@ router.post('/pagination_search_condition', (req, res) => {
     });
 });
 
-//////////////////////////////////////////////
-
-
-router.get('/test', (req, res) => {
-    console.log("/test    GET");
-    res.render('prof/sumtest', { obj : { test : '<p><img style="width: 700px;" src="http://www.itworld.co.kr/sites/default/files/image/2017/12/GettyImages-889581518.jpg"></p>' } } );
-});
-
 // 업로드된 이미지 파일 삭제
 router.post('/img_delete', (req, res) => {
     console.log("종료", req.body);
@@ -302,10 +294,5 @@ router.post('/img_upload', (req, res) => {
         }
     });
 });
-
-router.post('/test', (req, res) => {
-    console.log(req.body);
-    res.send( { console : req.body } );
-})
 
 module.exports = router;

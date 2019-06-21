@@ -38,7 +38,8 @@ router.post('/sign_auth', (req, res) => {
                 console.log("create complete! 이메일 인증해주시기 바랍니다.");
                 console.log('email sent: ' + info.response);
                 req.session.destroy();
-                res.send( { link : 'user/sign_auth/?email=' + email + "&id=" + id } );
+                // res.send( { link : 'user/sign_auth/?email=' + email + "&id=" + id } );
+                res.send( { content : "회원가입 신청이 완료되었습니다. 마지막으로 이메일 인증을 끝마치면 로그인하실 수 있습니다.", link : '/' } );
             }
         });
       };

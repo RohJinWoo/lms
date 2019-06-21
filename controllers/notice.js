@@ -87,7 +87,7 @@ module.exports = {
 
     findOne(req, res){
         return sequelize
-        .query('SELECT * FROM notices WHERE n_id = ?',
+        .query('SELECT n_id, n_title, n_content, date_format(createdAt, "%Y년 %c월 %e일 %T") as createdAt, date_format(updatedAt, "%Y년 %c월 %e일 %T") as updatedAt FROM notices WHERE n_id = ?',
         { replacements : [req.query.notice_num] , type : sequelize.QueryTypes.SELECT } )
         .catch(err => {
             console.log("findOne() 에러 발생", err);
@@ -193,8 +193,8 @@ module.exports = {
             { type : sequelize.QueryTypes.DELETE }, { transaction : t })
             .then(() => {
                 return sequelize
-                .query("UPDATE notices SET n_title = ?, n_content = ? WHERE n_id = ?",
-                { replacements : [ req.body.title, req.body.content, req.query.notice_num ], type : sequelize.QueryTypes.UPDATE }, { transaction : t })
+                .query("UPDATE notices SET n_title = ?, n_content = ?, updatedAt = ? WHERE n_id = ?",
+                { replacements : [ req.body.title, req.body.content, req.query.now, req.query.notice_num ], type : sequelize.QueryTypes.UPDATE }, { transaction : t })
                 .then((result) => {
                     console.log("fileupdate_commit_rollback() 실행 완료 : ", result);
                     if(req.files.length > 0){

@@ -91,3 +91,11 @@ div.notice_edit {
 .notice_input {
     width: 100%;
 }
+
+.language_text {
+    font-size: 20px;
+}
+
+.icon_center {
+    text-align: center;
+}

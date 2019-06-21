@@ -15,74 +15,9 @@ router.get('/main', userController.login_access, (req, res) => {
   .catch( err => {
     res.status(400).send(err);
   });
-})
+});
 
-// // 수강 신청
-// router.get('/sign-up-class', userController.login_access, (req, res) => {
-//     Promise.all([courceController.find(req, res)])
-//     .then( value => {
-//         console.log('value : ', value);
-//         console.log('value[0] : ', value[0]);
-//         res.render('std/sign_up_class', { obj : { title : '수강 신청' , cource : value[0] } } );
-//     })
-//     .catch( err => {
-//         res.status(400).send(err);
-//     });
-// });
-
-// // 수강 조회
-// router.get('/check-class', userController.login_access, (req, res) => {
-//   Promise.all([courceController.find(req, res)])
-//   .then( value => {
-//     console.log('value : ', value);
-//     console.log('value[0] : ', value[0]);
-//     res.render('std/check_class', { obj : { title : '수강 조회' , cource : value[0] } } );
-//   })
-//   .catch( err => {
-//       res.status(400).send(err);
-//   });
-// });
-
-// // 시험 보기
-// router.get('/exam', userController.login_access, (req, res) => {
-//   Promise.all([courceController.exam_find(req, res)])
-//   .then( value => {
-//     console.log('value : ', value);
-//     console.log('value[0] : ', value[0]);
-//     res.render('std/exam', { obj : { title : '시험 보기', exam : value[0] } } );
-//   })
-//   .catch( err => {
-//     res.status(400).send(err);
-//   });
-// });
-
-// // 성적 조회
-// router.get('/check-grade', userController.login_access, (req, res) => {
-//   Promise.all([studentController.std_year(req, res)])
-//   .then( value => {
-//     console.log('value : ', value);
-//     console.log('value[0] : ', value[0]);
-//     res.render('std/check_grade', { obj : { title : '성적 조회', year : value[0] } } );
-//   })
-//   .catch( err => {
-//     res.status(400).send(err);
-//   });
-// });
-
-// // 강의 평가
-// router.get('/rating-class', userController.login_access, (req, res) => {
-//   Promise.all([courceController.rating_class_find(req, res)])
-//   .then( value => {
-//     console.log('value : ', value);
-//     console.log('value[0] : ', value[0]);
-//     res.render('std/rating_class', { obj : { title : '강의 평가' , cource : value[0] } } );
-//   })
-//   .catch( err => {
-//     res.status(400).send(err);
-//   });
-// });
-
-router.get('/notice',/* userController.login_access,*/ (req, res) => {
+router.get('/notice', userController.login_access, (req, res) => {
   if(req.query.notice_num === undefined){
     res.render('std/notice', { obj : { title : '공지사항', nowpage : 1 } } );
   }else{
@@ -90,7 +25,7 @@ router.get('/notice',/* userController.login_access,*/ (req, res) => {
     .then(result => {
         console.log(req.query);
         if(result[0][0] !== undefined){
-          var obj = { id : result[0][0].n_id, title : result[0][0].n_title, content : result[0][0].n_content, filepath : result[1], updatedAt : result[0][0].updatedAt };
+          var obj = { id : result[0][0].n_id, title : result[0][0].n_title, content : result[0][0].n_content, filepath : result[1], updatedAt : result[0][0].updatedAt, createdAt : result[0][0].createdAt };
           console.log("result :::: ",result[0]);
             res.render("std/notice_board", { obj } );
         }else{
@@ -102,13 +37,5 @@ router.get('/notice',/* userController.login_access,*/ (req, res) => {
     })
   }
 });
-
-router.get('/test', (req, res) => {
-  noticeController.notice(req, res)
-  .then(result => {
-    console.log(result);
-    res.render('std/test', { obj : { notice : result } } );
-  })
-})
 
 module.exports = router;

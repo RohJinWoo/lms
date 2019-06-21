@@ -5,7 +5,7 @@ module.exports = {
 
     login(req, res){
       return sequelize
-      .query('SELECT pid, l_name FROM learners WHERE l_id = ? AND password = ?',
+      .query('SELECT pid, l_name, token FROM learners WHERE l_id = ? AND password = ?',
       { replacements : [req.body.u_id, req.body.password ], type : sequelize.QueryTypes.SELECT } )
       .catch(err => {
           console.log("std login() 에러 발생", err);

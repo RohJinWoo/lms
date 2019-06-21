@@ -6,7 +6,8 @@ var find_id = function(){
                 u.validation(email.value, 'email');
 
     // 원래 test가 들어가야함
-    if(!(u_name.value === "") && !(email.value === "")){
+    if(test){
+    // if(!(u_name.value === "") && !(email.value === "")){
         var form = u.qu('#form');
         u.axios('./user/find_id', { u_name : u_name.value, email : email.value }, "post" );
     }else{

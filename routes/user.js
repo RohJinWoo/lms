@@ -12,9 +12,13 @@ router.post('/login_std',  (req, res) => {
     .then(result => {
         console.log("login_std result : ",result);
         if(result[0] !== undefined){
-            req.session.std_id = result[0].pid;
-            req.session.std_name = result[0].l_name;
-            res.send( { link : '../std/main' } );
+            if(result[0].token === null){
+                req.session.std_id = result[0].pid;
+                req.session.std_name = result[0].l_name;
+                res.send( { link : '../std/main' } );
+            }else{
+                res.send( { content : "회원가입 인증 절차가 완료되지 않았습니다." } );
+            }
         }else{
             res.send( { content : "요청하신 회원 정보가 일치하지 않습니다. (학습자 로그인)" } );
         }

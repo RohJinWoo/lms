@@ -5,7 +5,8 @@ var change_pw = function(){
     var test = (password.value === password_check.value) && u.validation(password.value, 'password');
 
     // 원래 test가 들어가야함
-    if(password.value === password_check.value){
+    if(test){
+    // if(password.value === password_check.value){
         var form = u.qu('#form');
         u.axios('./change_pw', { password : password.value }, "put" );
     }else{

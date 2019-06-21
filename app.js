@@ -63,11 +63,11 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  if(req.path.split('/')[2] === 'images'){
-    res.redirect('/file_sample/images/no_image.jpg');
-  }else{
+  // if(req.path.split('/')[2] === 'images'){
+  //   res.redirect('/file_sample/images/no_image.jpg');
+  // }else{
     res.render('error');
-  }
+  // }
 });
 
 //Models

@@ -36,6 +36,11 @@ let file = u.qu('#userfile');
 
 var createNotice = function(req) {
 
+  let img = document.getElementsByTagName('img');
+  for(let i = 0; i < img.length; i++){
+    img[i].setAttribute('onerror', "no_img(this)");
+  }
+
   let title = u.qu('#title').value;
   let content = u.qu('#content').value;
 
@@ -44,7 +49,7 @@ var createNotice = function(req) {
 
     let formData = new FormData();
     formData.append('title', title);
-    formData.append('content', content);
+    formData.append('content', document.getElementsByClassName('note-editable')[0].innerHTML);
     for(let i = 0; i < inputfile.length; i++){
       formData.append('userfile', inputfile[i].input.files[0]);
     }
