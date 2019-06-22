@@ -15,6 +15,7 @@ search.addEventListener('click', () => {
         let prev_page = pagedata.nowpage;
         pagedata = { nowpage : 1 };
         pagedata.search_cnt = 1;
+        prevnext_num = 1;
         switch(search_condition.textContent) {
             case '제목' :
                 console.log("제목");
@@ -27,6 +28,8 @@ search.addEventListener('click', () => {
             default :
                 console.log("기본값");
                 pagedata = { nowpage : prev_page };
+                alert("검색 조건이 잘못 입력되었습니다.");
+                u.link(location.href);
                 break;
         }
         console.log(pagedata.search_cnt);
