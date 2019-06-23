@@ -1,5 +1,5 @@
-const std = require('../models').Learners;
-const prof = require('../models').Professors;
+const std = require('../models').learners;
+const prof = require('../models').professors;
 const sequelize = require('../models').sequelize;
 
 module.exports = {
