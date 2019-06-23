@@ -4,6 +4,7 @@ const userController = require('../controllers').user;
 
 /* GET home page. */
 router.get('/', userController.login_check, function(req, res, next) {
+  console.log("http://" + req.headers.host);
   res.render('login/login', { obj : { title: 'Login' } } );
 });
 

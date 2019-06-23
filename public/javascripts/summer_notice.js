@@ -40,7 +40,7 @@ $('#content').summernote({
                 if(response.data.imagename){
                     // upload image to server and create imgNode...
                     upload_image[upload_image_cnt++] = response.data.imagename;
-                    $('#content').summernote('insertNode', u.node("<img src=\'http://localhost:3000/file_sample/images/" + response.data.imagename + "\'>"));
+                    $('#content').summernote('insertNode', u.node("<img src=\'" + location.origin + "/file_sample/images/" + response.data.imagename + "\'>"));
                 }
             });
         }

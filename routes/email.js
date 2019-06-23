@@ -22,9 +22,9 @@ router.post('/sign_auth', (req, res) => {
       from: 'syncjw19@gmail.com',
       to: email,
       subject: 'LMS 회원가입 인증',
-      html: '<h1>메일 인증</h1>' + email + '<p><a href="http://localhost:3000/email/signauth/?email=' + email + '&id=' + id + '&token=' + token + '">인증하기</a></p>'
+      html: '<h1>메일 인증</h1>' + email + '<p><a href="http://' + req.headers.host + '/email/signauth/?email=' + email + '&id=' + id + '&token=' + token + '">인증하기</a></p>'
     };
-    console.log('<a href="http://localhost:3000/email/signauth/?email=' + email + '&id=' + id + '&token=' + token + '">인증하기</a>');
+    console.log('<a href="http://' + req.headers.host + '/email/signauth/?email=' + email + '&id=' + id + '&token=' + token + '">인증하기</a>');
     console.log(id);
     transporter.sendMail(mailOptions, function(err, info){
       if(err){
@@ -76,7 +76,7 @@ router.post('/emailpost', (req, res) => {
       from: 'syncjw19@gmail.com',
       to: email,
       subject: 'LMS 이메일 인증',
-      html: '<h1>메일 인증</h1>' + email + '<p><a href="http://localhost:3000/email/emailauth/?email=' + email + '&token=' + token + '">인증하기</a></p>'
+      html: '<h1>메일 인증</h1>' + email + '<p><a href="http://' + req.headers.host + '/email/emailauth/?email=' + email + '&token=' + token + '">인증하기</a></p>'
     };
   
     transporter.sendMail(mailOptions, function(err, info){

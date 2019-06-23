@@ -5,6 +5,6 @@ for(let i = 0; i < img.length; i++){
     img[i].onerror = () => {
     console.log(i,'번 에러발생');
     img[i].removeAttribute('style');
-    img[i].setAttribute('src','http://localhost:3000/file_sample/images/no_image.jpg');
+    img[i].setAttribute('src', location.origin + '/file_sample/images/no_image.jpg');
   };
 }

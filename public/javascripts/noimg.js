@@ -1,3 +1,3 @@
 let no_img = (e) => {
-    e.src = "http://localhost:3000/file_sample/images/no_image.jpg";
+    e.src = location.origin + "/file_sample/images/no_image.jpg";
 }

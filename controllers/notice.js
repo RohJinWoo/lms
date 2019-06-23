@@ -19,7 +19,7 @@ module.exports = {
     count(req){
         return sequelize
         // .count()
-        .query('SELECT count(*) as count FROM Notices', { type: sequelize.QueryTypes.SELECT } )
+        .query('SELECT count(*) as count FROM notices', { type: sequelize.QueryTypes.SELECT } )
         .catch(err => {
             console.log("notice count에러 발생!!! ", err);
         })
@@ -30,7 +30,7 @@ module.exports = {
         console.log("파일",req.files.length);
         return sequelize
         .query(
-            'INSERT INTO Notices(n_title, n_content, createdAt, updatedAt) VALUES(?, ?, ?, ?)',
+            'INSERT INTO notices(n_title, n_content, createdAt, updatedAt) VALUES(?, ?, ?, ?)',
             { replacements: [ req.body.title, req.body.content, req.query.now, req.query.now ], type: sequelize.QueryTypes.INSERT }
         )
         .catch(err => {
