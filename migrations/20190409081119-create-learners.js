@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Learners', {
+    return queryInterface.createTable('learners', {
       l_id: {
           type : Sequelize.STRING(45),
           allowNull : false,
@@ -38,6 +38,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Learners');
+    return queryInterface.dropTable('learners');
   }
 };

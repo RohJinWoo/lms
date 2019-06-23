@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Professors = sequelize.define('Professors',{
+  const Professors = sequelize.define('professors',{
       p_id: {
           type : DataTypes.STRING(45),
           allowNull : false,
