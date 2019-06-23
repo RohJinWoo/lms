@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Learners = sequelize.define('learners',{
+  const learners = sequelize.define('learners',{
       l_id: {
         type : DataTypes.STRING(45),
         allowNull : false,
@@ -27,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
         type : DataTypes.STRING(45),
       },
   }, {});
-  Learners.associate = function(models) {
+  learners.associate = function(models) {
     // associations can be defined here
   };
-  return Learners;
+  return learners;
 };
